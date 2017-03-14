@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<StationProperty xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <StationName>Test Station</StationName>
+  <StationID>0</StationID>
+  <ResolutionX>1920</ResolutionX>
+  <ResolutionY>1080</ResolutionY>
+  <LineLength>100</LineLength>
+  <LineThickness>3</LineThickness>
+  <SwitchDegrees>60</SwitchDegrees>
+  <SwitchLength>50</SwitchLength>
+  <SectionDistanceL>120</SectionDistanceL>
+  <SectionDistance>80</SectionDistance>
+  <NormalDistance>25</NormalDistance>
+  <ReverseDistance>25</ReverseDistance>
+  <IsSubwayMode>true</IsSubwayMode>
+</StationProperty>

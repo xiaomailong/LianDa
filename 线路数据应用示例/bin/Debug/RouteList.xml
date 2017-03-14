@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RouteCreator xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Route ID="0" Start="1-F5" End="1-F3" Change="null" Color="SignalYellow" Incomming="117G " In="119DG 119DG 107DG 109G " Leaving="111DG " InSwitches="9 7 5 " Positions="PosNormal PosNormal PosReverse " />
+  <Route ID="1" Start="1-F5" End="1-SC" Change="null" Color="SignalYellow" Incomming="117G " In="119DG 118DG 106DG 108G " Leaving="110DG " InSwitches="9 8 6 " Positions="PosReverse PosReverse PosReverse " />
+  <Route ID="2" Start="1-F8" End="1-SC" Change="null" Color="SignalYellow" Incomming="116G " In="118DG 118DG 106DG 108G " Leaving="110DG " InSwitches="10 8 6 " Positions="PosNormal PosNormal PosReverse " />
+  <Route ID="3" Start="1-F8" End="1-F3" Change="null" Color="SignalYellow" Incomming="116G " In="118DG 119DG 107DG 109G " Leaving="111DG " InSwitches="10 7 5 " Positions="PosReverse PosReverse PosReverse " />
+  <Route ID="4" Start="2-F9" End="2-Z3" Change="null" Color="SignalGreen" Incomming="205G " In="207DG 209G " Leaving="211G " InSwitches="1 " Positions="PosNormal " />
+  <Route ID="5" Start="2-Z3" End="1-F3" Change="null" Color="SignalGreen" Incomming="209G " In="211G 121G 101G 103G 105G 107DG 109G " Leaving="111DG " InSwitches="5 " Positions="PosNormal " />
+  <Route ID="6" Start="2-SC" End="1-F10" Change="null" Color="SignalGreen" Incomming="202G " In="204DG 206G 120G " Leaving="102G " InSwitches="2 " Positions="PosNormal " />
+  <Route ID="7" Start="1-F10" End="1-F6" Change="null" Color="SignalGreen" Incomming="120G " In="102G 104G " Leaving="106DG " InSwitches="" Positions="" />
+  <Route ID="8" Start="1-F6" End="1-SC" Change="null" Color="SignalGreen" Incomming="104G " In="106DG 108G " Leaving="110DG " InSwitches="6 " Positions="PosNormal " />
+  <Route ID="9" Start="2-SC" End="2-Z3" Change="null" Color="SignalYellow" Incomming="202G " In="204DG 207DG 209G " Leaving="211G " InSwitches="2 1 " Positions="PosReverse PosReverse " />
+  <Route ID="10" Start="1-F1" End="1-FC" Change="null" Color="SignalGreen" Incomming="113G " In="111DG 111DG 109G " Leaving="107DG " InSwitches="1 3 " Positions="PosNormal PosNormal " />
+  <Route ID="11" Start="1-F2" End="1-FC" Change="null" Color="SignalYellow" Incomming="112G " In="110DG 111DG 109G " Leaving="107DG " InSwitches="2 3 " Positions="PosReverse PosReverse " />
+  <Route ID="12" Start="1-F2" End="1-F4" Change="null" Color="SignalGreen" Incomming="112G " In="110DG 110DG 108G " Leaving="106DG " InSwitches="2 4 " Positions="PosNormal PosNormal " />
+  <Route ID="13" Start="1-F1" End="1-F4" Change="null" Color="SignalYellow" Incomming="113G " In="111DG 110DG 108G " Leaving="106DG " InSwitches="1 4 " Positions="PosReverse PosReverse " />
+  <Route ID="14" Start="1-FC" End="1-F11" Change="null" Color="SignalGreen" Incomming="109G " In="107DG 105G 103G 101G " Leaving="121G " InSwitches="5 " Positions="PosNormal " />
+  <Route ID="15" Start="1-F11" End="2-F7" Change="null" Color="SignalGreen" Incomming="101G " In="121G 211G 209G " Leaving="207DG " InSwitches="" Positions="" />
+  <Route ID="16" Start="2-F7" End="2-XC" Change="null" Color="SignalGreen" Incomming="209G " In="207DG 205G " Leaving="203G " InSwitches="1 " Positions="PosNormal " />
+  <Route ID="17" Start="1-F4" End="2-Z2" Change="null" Color="SignalGreen" Incomming="108G " In="106DG 104G 102G 120G 206G 204DG 202G " Leaving="208G " InSwitches="6 2 " Positions="PosNormal PosNormal " />
+  <Route ID="18" Start="2-F7" End="2-Z2" Change="null" Color="SignalYellow" Incomming="209G " In="207DG 204DG 202G " Leaving="208G " InSwitches="1 2 " Positions="PosReverse PosReverse " />
+</RouteCreator>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SignalProtectionMap>
+  <KeyValuePair>
+    <Signal Name="2-F9" ID="1" StationID="0" SwitchPosition="PosNormal" />
+    <Device Name="1" ID="0" StationID="0" />
+  </KeyValuePair>
+  <KeyValuePair>
+    <Signal Name="2-F7" ID="4" StationID="0" SwitchPosition="PosNeither" />
+    <Device Name="1" ID="0" StationID="0" />
+  </KeyValuePair>
+  <KeyValuePair>
+    <Signal Name="2-SC" ID="3" StationID="0" SwitchPosition="PosNeither" />
+    <Device Name="2" ID="1" StationID="0" />
+  </KeyValuePair>
+  <KeyValuePair>
+    <Signal Name="1-F5" ID="8" StationID="0" SwitchPosition="PosNeither" />
+    <Device Name="9" ID="2" StationID="0" />
+  </KeyValuePair>
+  <KeyValuePair>
+    <Signal Name="1-F8" ID="9" StationID="0" SwitchPosition="PosNeither" />
+    <Device Name="10" ID="3" StationID="0" />
+  </KeyValuePair>
+  <KeyValuePair>
+    <Signal Name="1-SC" ID="10" StationID="0" SwitchPosition="PosNeither" />
+    <Device Name="4" ID="4" StationID="0" />
+  </KeyValuePair>
+  <KeyValuePair>
+    <Signal Name="1-F3" ID="11" StationID="0" SwitchPosition="PosNeither" />
+    <Device Name="3" ID="5" StationID="0" />
+  </KeyValuePair>
+  <KeyValuePair>
+    <Signal Name="1-F1" ID="12" StationID="0" SwitchPosition="PosNeither" />
+    <Device Name="1" ID="6" StationID="0" />
+  </KeyValuePair>
+  <KeyValuePair>
+    <Signal Name="1-F2" ID="13" StationID="0" SwitchPosition="PosNeither" />
+    <Device Name="2" ID="7" StationID="0" />
+  </KeyValuePair>
+  <KeyValuePair>
+    <Signal Name="1-FC" ID="15" StationID="0" SwitchPosition="PosNeither" />
+    <Device Name="5" ID="9" StationID="0" />
+  </KeyValuePair>
+  <KeyValuePair>
+    <Signal Name="1-F6" ID="16" StationID="0" SwitchPosition="PosNormal" />
+    <Device Name="6" ID="11" StationID="0" />
+  </KeyValuePair>
+  <KeyValuePair>
+    <Signal Name="1-F4" ID="14" StationID="0" SwitchPosition="PosNeither" />
+    <Device Name="6" ID="11" StationID="0" />
+  </KeyValuePair>
+  <KeyValuePair>
+    <Signal Name="2-XC" ID="0" StationID="0" SwitchPosition="PosNeither" />
+    <Device Name="203G" ID="0" StationID="0" />
+  </KeyValuePair>
+  <KeyValuePair>
+    <Signal Name="2-Z3" ID="5" StationID="0" SwitchPosition="PosNeither" />
+    <Device Name="211G" ID="4" StationID="0" />
+  </KeyValuePair>
+  <KeyValuePair>
+    <Signal Name="1-F11" ID="6" StationID="0" SwitchPosition="PosNeither" />
+    <Device Name="121G" ID="5" StationID="0" />
+  </KeyValuePair>
+  <KeyValuePair>
+    <Signal Name="1-F10" ID="7" StationID="0" SwitchPosition="PosNeither" />
+    <Device Name="102G" ID="9" StationID="0" />
+  </KeyValuePair>
+  <KeyValuePair>
+    <Signal Name="2-Z2" ID="2" StationID="0" SwitchPosition="PosNeither" />
+    <Device Name="208G" ID="16" StationID="0" />
+  </KeyValuePair>
+</SignalProtectionMap>
