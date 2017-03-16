@@ -146,3 +146,6 @@ C:\Users\Administrator\Desktop\ZC\线路数据应用示例\obj\Debug\线路数�
 C:\Users\qing\Desktop\ZC - 副本\ZC - 副本\线路数据应用示例\bin\Debug\线路数据应用示例.exe.config
 C:\Users\qing\Desktop\ZC - 副本\ZC - 副本\线路数据应用示例\obj\Debug\线路数据应用示例.exe
 C:\Users\qing\Desktop\ZC - 副本\ZC - 副本\线路数据应用示例\obj\Debug\线路数据应用示例.pdb
+C:\Users\qing\Desktop\ZC\LianDa\线路数据应用示例\bin\Debug\线路数据应用示例.exe.config
+C:\Users\qing\Desktop\ZC\LianDa\线路数据应用示例\obj\Debug\线路数据应用示例.exe
+C:\Users\qing\Desktop\ZC\LianDa\线路数据应用示例\obj\Debug\线路数据应用示例.pdb

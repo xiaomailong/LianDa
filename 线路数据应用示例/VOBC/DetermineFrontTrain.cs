@@ -288,21 +288,37 @@ namespace 线路数据应用示例
             return NumOfBarrier;
         }
       
-        public byte[] SetMAObstacle(byte[] Obstacle, List<string> Route)
+        public void SetMAObstacle(byte[] Obstacle, List<string> Route)
         {
             List<byte[]> ObstacleCollection = new List<byte[]>();
             foreach (var item in Route)
             {
-                foreach (var element in MainWindow.stationElements_.Elements)
-                {
+                AddObstacleCollection(MainWindow.stationElements_, ObstacleCollection, item);
+                AddObstacleCollection(MainWindow.stationElements_1_, ObstacleCollection, item);
+            }
+            if (ObstacleCollection.Count != 0)
+            {
+                
+            }
 
-                }
-                foreach (var element in MainWindow.stationElements_1_.Elements)
-                {
+        }
 
+        public void AddObstacleCollection(StationElements StationElements, List<byte[]> ObstacleCollection, string Section)
+        {
+            foreach (var element in StationElements.Elements)
+            {
+                if (element is RailSwitch && (element as RailSwitch).SectionName.Substring(0, 3) == Section.Substring(0, 3) && (element as RailSwitch).Name == Section.Substring(4))
+                {
+                    byte[] obstacle = new byte[5];
+                    obstacle[0] = 0x04;
+                    byte[] ID = System.BitConverter.GetBytes(Convert.ToInt16((element as RailSwitch).SectionName.Substring(0, 3)));
+                    Array.Copy(ID, 0, obstacle, 1, 2);
+                    obstacle[3] = ((element as RailSwitch).IsPositionNormal == true ? Convert.ToByte(1) : Convert.ToByte(2));
+                    obstacle[4] = obstacle[3];
+                    ObstacleCollection.Add(obstacle);
                 }
             }
-            return null;
         }
+
     }
 }
