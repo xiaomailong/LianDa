@@ -11,7 +11,7 @@ namespace 线路数据应用示例
         #region 属性
         public byte[] Obstacle { get; set; }
 
-        private byte[] _ReplyMessageToZC = new byte[44];
+        private byte[] _ReplyMessageToZC = new byte[36];
         public byte[] ReplyMessageToZC
         {
             get { return _ReplyMessageToZC; }

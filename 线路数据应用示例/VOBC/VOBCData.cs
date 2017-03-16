@@ -28,8 +28,6 @@ namespace 线路数据应用示例
 
             //写发给VOBC的数据
             SetInfoToVOBC();
-
-
         }
 
         private void SetInfoToVOBC()
@@ -42,6 +40,7 @@ namespace 线路数据应用示例
             SetNumberOfBarrier();
             SetMALength();
             SetMAEndType();
+            SetMAObstacle();
         }
 
         public void HandleVOBCData(object sender, VOBCEvent TrainData)
@@ -52,15 +51,15 @@ namespace 线路数据应用示例
         private void SetIDofZC()
         {
             InfoSendToVOBC.NID_ZC = 0x01;
-            InfoSendToVOBC.ReplyMessageToZC[8] = InfoSendToVOBC.NID_ZC;
-            InfoSendToVOBC.ReplyMessageToZC[9] = 0x00;
+            InfoSendToVOBC.ReplyMessageToZC[0] = InfoSendToVOBC.NID_ZC;
+            InfoSendToVOBC.ReplyMessageToZC[1] = 0x00;
         }
 
         private void SetIDofVOBC()
         {
             InfoSendToVOBC.NID_Train = Handle.NID_Train;
-            InfoSendToVOBC.ReplyMessageToZC[10] = InfoSendToVOBC.NID_Train;
-            InfoSendToVOBC.ReplyMessageToZC[11] = 0x00;
+            InfoSendToVOBC.ReplyMessageToZC[2] = InfoSendToVOBC.NID_Train;
+            InfoSendToVOBC.ReplyMessageToZC[3] = 0x00;
         }
 
         private void SetNCofZC()
@@ -82,37 +81,40 @@ namespace 线路数据应用示例
                 default:
                     break;
             }
-            InfoSendToVOBC.ReplyMessageToZC[12] = InfoSendToVOBC.NC_ZC;
+            InfoSendToVOBC.ReplyMessageToZC[4] = InfoSendToVOBC.NC_ZC;
         }
         private void SetMAHead()
         {
             byte[] MAHead = new byte[6];
-            Array.Copy(Data, 28, MAHead, 0, 6);
-            Array.Copy(Data, 28, InfoSendToVOBC.ReplyMessageToZC, 29, 6);
-            InfoSendToVOBC.ReplyMessageToZC[35] = Handle.Q_TrainRealDirection;
+            Array.Copy(Data, 20, MAHead, 0, 2);
+            Array.Copy(Data, 24, MAHead, 2, 2);
+            MAHead[4] = 0;
+            MAHead[5] = 0;
+            Array.Copy(MAHead, 0, InfoSendToVOBC.ReplyMessageToZC, 21, 6);
+            InfoSendToVOBC.ReplyMessageToZC[27] = Handle.Q_TrainRealDirection;
         }
         private void SetMATail()
         {
             byte[] MATail = Determine.DetermineMA(Handle);
-            Array.Copy(MATail, 0, InfoSendToVOBC.ReplyMessageToZC, 36, 7);
+            Array.Copy(MATail, 0, InfoSendToVOBC.ReplyMessageToZC, 28, 7);
         }
 
         private void SetNumberOfBarrier()
         {
             int NumOfBarrier = Determine.GetNumOfBarrier(Determine.Route);
             byte BNum = Convert.ToByte(NumOfBarrier);
-            InfoSendToVOBC.ReplyMessageToZC[43] = BNum;
+            InfoSendToVOBC.ReplyMessageToZC[35] = BNum;
         }
 
         private void SetMALength()
         {
             int NumOfBarrier = Determine.NumOfBarrier;
             byte MALength = Convert.ToByte(17 + 5 * NumOfBarrier);
-            InfoSendToVOBC.ReplyMessageToZC[27] = MALength;
+            InfoSendToVOBC.ReplyMessageToZC[19] = MALength;
         }
         private void SetMAEndType()
         {
-            InfoSendToVOBC.ReplyMessageToZC[28] = 0x01;
+            InfoSendToVOBC.ReplyMessageToZC[20] = 0x01;
         }
 
         private void SetMAObstacle()

@@ -63,7 +63,7 @@ namespace 线路数据应用示例
             return distance <= LeftDistance && distance >= RightDistance;
         }
 
-        bool isRouteLock_ = true;
+        bool isRouteLock_ = false;
         bool IsRouteLock
         {
             get { return isRouteLock_; }
@@ -89,7 +89,7 @@ namespace 线路数据应用示例
             }
         }
 
-        bool isLastLogicOccupy_ = false;
+        bool isLastLogicOccupy_ = true;
         public bool IsLastLogicOccupy
         {
             get { return isLastLogicOccupy_; }
@@ -106,10 +106,28 @@ namespace 线路数据应用示例
         {
             foreach (Line line in graphics_)
             {
-                line.OnRender(dc, (TrainOccupy == 0 ? TrainOccpyPen_ :
-                    AxleOccupy == 0 ? AxleOccupyPen_ : DefaultPen_));
+                System.Windows.Point Middle = new System.Windows.Point((line.Points[0].X + line.Points[1].X)/2,(line.Points[0].Y + line.Points[1].Y)/2);
+                if (AxleOccupy == 0)
+	            {
+		            dc.DrawLine(AxleOccupyPen_,line.Points[0],line.Points[1]);
+	            }
+                else
+	            {
+                    dc.DrawLine(DefaultPen_,line.Points[0],line.Points[1]);
+	            }
+                if (IsFrontLogicOccupy && IsLastLogicOccupy)
+	            {
+		            dc.DrawLine(TrainOccpyPen_,line.Points[0],line.Points[1]);
+	            }
+                else if (IsFrontLogicOccupy && !IsLastLogicOccupy)
+	            {
+		            dc.DrawLine(TrainOccpyPen_,line.Points[0],Middle);
+	            }
+                else if (!IsFrontLogicOccupy && IsLastLogicOccupy)
+                {
+                    dc.DrawLine(TrainOccpyPen_, Middle, line.Points[1]);
+                }
             }
-
             dc.DrawText(formattedName_, namePoint_);
         }
     }
