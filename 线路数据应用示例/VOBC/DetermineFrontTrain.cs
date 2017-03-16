@@ -221,20 +221,20 @@ namespace 线路数据应用示例
         {
             byte[] MAEnd = new byte[7];
             int MAInt = Convert.ToInt16(MASection.Substring(0,3));
-            if (MAInt > 255)
+            if (MAInt > 256)
             {
-                MAEnd[0] = 1;
-                MAEnd[1] = Convert.ToByte(MAInt - 256);
+                MAEnd[0] = Convert.ToByte(MAInt - 256);
+                MAEnd[1] = 1;
             }
             else
             {
-                MAEnd[0] = 0;
-                MAEnd[1] = Convert.ToByte(MAInt);
+                MAEnd[0] = Convert.ToByte(MAInt);
+                MAEnd[1] = 0;
             }
-            MAEnd[2] = 0;
+            MAEnd[2] = Convert.ToByte(MAOffset);
             MAEnd[3] = 0;
             MAEnd[4] = 0;
-            MAEnd[5] = Convert.ToByte(MAOffset);
+            MAEnd[5] = 0;
             MAEnd[6] = Convert.ToByte(MADir);
             return MAEnd;
         }
@@ -298,7 +298,10 @@ namespace 线路数据应用示例
             }
             if (ObstacleCollection.Count != 0)
             {
-                
+                for (int i = 0; i < ObstacleCollection.Count; i++)
+                {
+                    ObstacleCollection[i].CopyTo(Obstacle,i*5);
+                }
             }
 
         }
@@ -319,6 +322,5 @@ namespace 线路数据应用示例
                 }
             }
         }
-
     }
 }
