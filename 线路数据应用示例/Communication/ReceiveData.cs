@@ -54,7 +54,7 @@ namespace 线路数据应用示例
             DATA = receiveDataArray;
             if (DATA != null)
             {
-                receiveDataArray = new byte[1024];//目前做的认为接收到的都是VOBC发来的数据
+                receiveDataArray = new byte[1024];
                 VOBCorCI VOBCorCI = new VOBCorCI(DATA);
             }
             receiveDataArray = new byte[1024];

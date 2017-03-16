@@ -8,25 +8,14 @@ namespace 线路数据应用示例
 {
     class VOBCData
     {
-        HandleVOBCData Handle = new HandleVOBCData();
+        HandleVOBCData Handle;
         InfoSendToVOBC InfoSendToVOBC = new InfoSendToVOBC();
         DetermineFrontTrain Determine = new DetermineFrontTrain();
-        public event EventHandler<VOBCEvent> NewVOBCData;
         private byte[] Data;
-        public VOBCData(byte[] data)
+        public VOBCData(byte[] data, HandleVOBCData handle)
         {
             this.Data = data;
-        }
-        public void DataHandle()
-        {
-            EventHandler<VOBCEvent> HandleEvent = NewVOBCData;
-            if (HandleEvent != null)
-            {
-                HandleVOBCData(this, new VOBCEvent(this.Data));
-            }
-
-
-            //写发给VOBC的数据
+            this.Handle = handle;
             SetInfoToVOBC();
         }
 
@@ -42,12 +31,7 @@ namespace 线路数据应用示例
             SetMAEndType();
             SetMAObstacle();
         }
-
-        public void HandleVOBCData(object sender, VOBCEvent TrainData)
-        {
-            Handle.AddProgress(this.Data);
-        }
-
+        
         private void SetIDofZC()
         {
             InfoSendToVOBC.NID_ZC = 0x01;
@@ -83,6 +67,7 @@ namespace 线路数据应用示例
             }
             InfoSendToVOBC.ReplyMessageToZC[4] = InfoSendToVOBC.NC_ZC;
         }
+
         private void SetMAHead()
         {
             byte[] MAHead = new byte[6];
@@ -93,6 +78,7 @@ namespace 线路数据应用示例
             Array.Copy(MAHead, 0, InfoSendToVOBC.ReplyMessageToZC, 21, 6);
             InfoSendToVOBC.ReplyMessageToZC[27] = Handle.Q_TrainRealDirection;
         }
+
         private void SetMATail()
         {
             byte[] MATail = Determine.DetermineMA(Handle);

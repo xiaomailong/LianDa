@@ -16,7 +16,7 @@ namespace 线路数据应用示例
 
         public double LeftDistance { get; set; }
         public double RightDistance { get; set; }
-        private int _Offset = 120;
+        private int _Offset = 100;
         public int Offset 
         { 
             get {return _Offset; }

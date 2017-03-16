@@ -97,7 +97,7 @@ namespace 线路数据应用示例
                 {
                     if ((item.NodeDevice as Section).Name.Substring(0,3) == MASection.Substring(0,3))
                     {
-                        MAOffset = 120;
+                        MAOffset = 100;
                         MADir = TrainDir;
                     }
                 }
@@ -117,7 +117,7 @@ namespace 线路数据应用示例
                 {
                     if ((item.NodeDevice as Section).Name.Substring(0, 3) == MASection.Substring(0, 3))
                     {
-                        MAOffset = 120;
+                        MAOffset = 100;
                         MADir = TrainDir;
                     }
                 }

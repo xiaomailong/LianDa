@@ -12,43 +12,42 @@ namespace 线路数据应用示例
         public static Dictionary<byte, byte> TrainDirection = new Dictionary<byte, byte>();
         public static Dictionary<byte, byte[]> TrainPosition = new Dictionary<byte, byte[]>();
         public static List<byte> Train = new List<byte>();
-        public delegate void GetInfo(byte[] Data);
         #region 属性
         private byte _NID_Train;
         public byte NID_Train
         {
-            private set { _NID_Train = value; }
+            set { _NID_Train = value; }
             get { return _NID_Train; }
         }
         private byte _NID_ZC;
         public byte NID_ZC
         {
-            private set { _NID_ZC = value; }
+            set { _NID_ZC = value; }
             get { return _NID_ZC; }
         }
         private byte _NC_Train;
         public byte NC_Train
         {
-            private set { _NC_Train = value; }
+            set { _NC_Train = value; }
             get { return _NC_Train; }
         }
         private byte _Q_TrainRealDirection;
         public byte Q_TrainRealDirection
         {
-            private set { _Q_TrainRealDirection = value; }
+            set { _Q_TrainRealDirection = value; }
             get { return _Q_TrainRealDirection; }
         }
         #endregion
-        public void AddProgress(byte[] Data)
+        public HandleVOBCData(byte[] Data)
         {
-            GetInfo GetInfo = new GetInfo(GetTrainID);
-            GetInfo += GetZCID;
-            GetInfo += GetNCofTrain;
-            GetInfo += GetTrainPosition;
-            GetInfo += GetDirection;
-            GetInfo += AddTrain;
-            HandleProgress(Data, GetInfo);
+            GetTrainID(Data);
+            GetZCID(Data);
+            GetNCofTrain(Data);
+            GetTrainPosition(Data);
+            GetDirection(Data);
+            AddTrain(Data);
         }
+
         private void AddTrain(byte[] Data)
         {
             if (!Train.Contains(Data[9]))
@@ -56,22 +55,20 @@ namespace 线路数据应用示例
                 Train.Add(Data[9]);
             }
         }
-        private void HandleProgress(byte[] Data, GetInfo HandleProcess)
-        {
-            HandleProcess(Data);
-        }
+
         private void GetTrainID(byte[] Data)
         {
-            this._NID_Train = Data[9];
+            this.NID_Train = Data[8];
         }
+
         private void GetZCID(byte[] Data)
         {
-            this._NID_ZC = Data[10];
+            this.NID_ZC = Data[10];
         }
 
         private void GetNCofTrain(byte[] Data)
         {
-            this._NID_ZC = Data[12];
+            this.NC_Train = Data[12];
         }
 
         private void GetTrainPosition(byte[] Data)

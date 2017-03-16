@@ -23,9 +23,9 @@ namespace 线路数据应用示例
                 {
                     VOBCNonCom.Add(DATA[11]);
                 }
-                VOBCData vobcDate = new VOBCData(DATA);
-                vobcDate.NewVOBCData += vobcDate.HandleVOBCData;
-                vobcDate.DataHandle();
+                HandleVOBCData HandleVOBCData = new HandleVOBCData(DATA);
+                VOBCData VOBCData = new VOBCData(DATA, HandleVOBCData);
+                UpdateInfo UpdateInfo = new UpdateInfo(HandleVOBCData);
             }
             if (DataType == 1)
             {

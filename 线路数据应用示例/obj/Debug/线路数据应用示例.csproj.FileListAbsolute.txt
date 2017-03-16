@@ -151,7 +151,6 @@ C:\Users\qing\Desktop\ZC\LianDa\线路数据应用示例\obj\Debug\线路数据�
 C:\Users\qing\Desktop\ZC\LianDa\线路数据应用示例\obj\Debug\线路数据应用示例.pdb
 C:\Users\qing\Desktop\ZC\LianDa\线路数据应用示例\bin\Debug\线路数据应用示例.exe
 C:\Users\qing\Desktop\ZC\LianDa\线路数据应用示例\bin\Debug\线路数据应用示例.pdb
-C:\Users\qing\Desktop\ZC\LianDa\线路数据应用示例\obj\Debug\线路数据应用示例.csprojResolveAssemblyReference.cache
 C:\Users\qing\Desktop\ZC\LianDa\线路数据应用示例\obj\Debug\MainWindow.g.cs
 C:\Users\qing\Desktop\ZC\LianDa\线路数据应用示例\obj\Debug\App.g.cs
 C:\Users\qing\Desktop\ZC\LianDa\线路数据应用示例\obj\Debug\线路数据应用示例_MarkupCompile.cache

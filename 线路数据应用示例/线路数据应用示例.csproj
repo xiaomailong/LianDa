@@ -78,11 +78,11 @@
     <Compile Include="StationTopoloty.cs" />
     <Compile Include="TopolotyNode.cs" />
     <Compile Include="try.cs" />
+    <Compile Include="VOBC\UpdateInfo.cs" />
     <Compile Include="VOBC\DetermineFrontTrain.cs" />
     <Compile Include="VOBC\HandleVOBCData.cs" />
     <Compile Include="VOBC\InfoSendToVOBC.cs" />
     <Compile Include="VOBC\VOBCData.cs" />
-    <Compile Include="VOBC\VOBCEvent.cs" />
     <Compile Include="练习\解码位.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -8,8 +8,6 @@ namespace 线路数据应用示例
 {
     class NonCommunicationTrain
     {
-        HandleVOBCData VOBCInfo = new HandleVOBCData();
-
         public void JudgeLostTrain()
         {
             while (true)
