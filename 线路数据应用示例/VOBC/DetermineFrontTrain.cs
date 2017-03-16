@@ -8,21 +8,34 @@ namespace 线路数据应用示例
 {
     class DetermineFrontTrain
     {
-        public List<string> Route = new List<string>();
         public string MASection = "";
         public int MAOffset = 0;
         public int MADir = 0;
         public int NumOfBarrier = 0;
         public List<CItable> CurTrainIn = new List<CItable>();
-
+        public List<string> Route = new List<string>();
 
         public byte[] DetermineMA(HandleVOBCData Handle)
         {
             int TrainSectionInt = Convert.ToInt16(HandleVOBCData.TrainPosition[Handle.NID_Train][0]) * 256 + Convert.ToInt16(HandleVOBCData.TrainPosition[Handle.NID_Train][1]);//纯数字
+            int RailSwitchInt = Convert.ToInt16(HandleVOBCData.TrainPosition[Handle.NID_Train][2]);
+            string RailSwitchString = RailSwitchInt.ToString();
             string TrainSectionString = TrainSectionInt.ToString();
-            Route.Add(TrainSectionString);
-            int SectionDir = GetSectionDir(TrainSectionString);
-            FindCurTrainIn(TrainSectionString, SectionDir);
+            int TrainDir = Handle.Q_TrainRealDirection;
+            foreach (var item in MainWindow.stationElements_.Elements)
+            {
+                if (item.Name.Substring(0,3) == TrainSectionString)
+                {
+                    if (item is Section)
+                    {
+                        FindCurTrainIn(TrainSectionString + "-0" , TrainDir);
+                    }
+                    if (item is RailSwitch)
+                    {
+                        FindCurTrainIn(TrainSectionString + "-" + RailSwitchString, TrainDir);
+                    }
+                }
+            }
             CItable NextAccess = null;
             if (CurTrainIn.Count != 0)
             {
@@ -35,14 +48,14 @@ namespace 线路数据应用示例
                         {
                             Route.Add(item.Section[i]);
                         }
-                        byte[] a = SectionOccpy(item.Section[i]);
+                        byte[] a = SectionOccpy(item.Section[i],TrainDir);
                         if (a != null)
                         {
                             return a;
                         }
-                        if (IsApproachSection(item.Section[i], GetSectionDir(item.Section[i])) != null)
+                        if (IsApproachSection(item.Section[i], TrainDir) != null)
                         {
-                            NextAccess = IsApproachSection(item.Section[i], GetSectionDir(item.Section[i]));
+                            NextAccess = IsApproachSection(item.Section[i], TrainDir);
                         }
                     }
                 }
@@ -59,12 +72,12 @@ namespace 线路数据应用示例
                         {
                             Route.Add(NextAccess.Section[i]);
                         }
-                        byte[] a = SectionOccpy(NextAccess.Section[i]);
+                        byte[] a = SectionOccpy(NextAccess.Section[i],TrainDir);
                         if (a != null)
                         {
                             return a;
                         }
-                        Next = IsApproachSection(NextAccess.Section[i], GetSectionDir(Next.Section[i]));
+                        Next = IsApproachSection(NextAccess.Section[i], TrainDir);
                     }
                     if (Next != null)
                     {
@@ -76,23 +89,25 @@ namespace 线路数据应用示例
                     }
                 }
             }
+
             MASection = NextAccess.EndSection;
             foreach (var item in MainWindow.stationTopoloty_.Nodes)
 	        {
                 if (item.NodeDevice is Section)
                 {
-                    if ((item.NodeDevice as Section).Name.Substring(0,3) == MASection)
+                    if ((item.NodeDevice as Section).Name.Substring(0,3) == MASection.Substring(0,3))
                     {
                         MAOffset = 120;
-                        MADir = (item.NodeDevice as Section).Direction;
+                        MADir = TrainDir;
                     }
                 }
                 else if (item.NodeDevice is RailSwitch)
                 {
-                    if ((item.NodeDevice as RailSwitch).SectionName.Substring(0,3) == MASection)
+                    if ((item.NodeDevice as RailSwitch).SectionName.Substring(0,3) == MASection.Substring(0,3) 
+                        && (item.NodeDevice as RailSwitch).Name == MASection.Substring(4))
                     {
-                        MAOffset = SetMAOffset(NextAccess, MainWindow.stationTopoloty_.Nodes);
-                        MADir = (item.NodeDevice as RailSwitch).Direction;
+                        MAOffset = SetMAOffset(item.NodeDevice);
+                        MADir = TrainDir;
                     }
                 }
 	        }
@@ -100,133 +115,100 @@ namespace 线路数据应用示例
             {
                 if (item.NodeDevice is Section)
                 {
-                    if ((item.NodeDevice as Section).Name.Substring(0, 3) == MASection)
+                    if ((item.NodeDevice as Section).Name.Substring(0, 3) == MASection.Substring(0, 3))
                     {
                         MAOffset = 120;
-                        MADir = (item.NodeDevice as Section).Direction;
+                        MADir = TrainDir;
                     }
                 }
                 else if (item.NodeDevice is RailSwitch)
                 {
-                    if ((item.NodeDevice as RailSwitch).SectionName.Substring(0, 3) == MASection)
+                    if ((item.NodeDevice as RailSwitch).SectionName.Substring(0, 3) == MASection.Substring(0, 3)
+                        && (item.NodeDevice as RailSwitch).Name == MASection.Substring(4))
                     {
-                        MAOffset = SetMAOffset(NextAccess, MainWindow.stationTopoloty_.Nodes);
-                        MADir = (item.NodeDevice as RailSwitch).Direction;
+                        MAOffset = SetMAOffset(item.NodeDevice);
+                        MADir = TrainDir;
                     }
                 }
             }
             return ConvertToByte(MASection, MAOffset, MADir); 
         }
 
-        private int SetMAOffset(CItable EndAccess,List<TopolotyNode> StationTopoloty)
+        private int SetMAOffset(线路绘图工具.Device RailSwitch)
         {
-            string Last = EndAccess.Section[EndAccess.Section.Count - 2];
-            foreach (var item in StationTopoloty)
+            if ((RailSwitch as RailSwitch).SectionName.Substring(0,3) == "110" || (RailSwitch as RailSwitch).SectionName.Substring(0,3) == "111"
+                || (RailSwitch as RailSwitch).SectionName.Substring(0, 3) == "118" || (RailSwitch as RailSwitch).SectionName.Substring(0, 3) == "119")
             {
-                if (item.NodeDevice is Section)
+                if ((RailSwitch as RailSwitch).IsPositionNormal == true && (RailSwitch as RailSwitch).IsPositionReverse == false)
                 {
-                    if ((item.NodeDevice as Section).Name.Substring(0, 3) == Last)
-                    {
-                        return 50;
-                    }
+                    return 50;
                 }
-                else if (item.NodeDevice is RailSwitch)
+                else
                 {
-                    if ((item.NodeDevice as RailSwitch).SectionName.Substring(0, 3) == Last && (item.NodeDevice as RailSwitch).IsPositionReverse == true)
-                    {
-                        return 25;
-                    }
+                    return 25;
                 }
             }
-            return 50;
+            else
+            {
+                return 25;
+            }
         }
 
-        private void FindCurTrainIn(string TrainSectionString, int SectionDir)
+        private void FindCurTrainIn(string TrainSectionString, int TrainDir)
         {
             foreach (var item in AddCIAccess.CITableListDown)
             {
-                if (item.Section.Contains(TrainSectionString) && item.Direction == SectionDir && item.AccessState == 1)
+                if (item.Section.Contains(TrainSectionString) && item.Direction == TrainDir && item.AccessState == 1)
                 {
                     CurTrainIn.Add(item);
                 }
             }
             foreach (var item in AddCIAccess.CITableListTop)
             {
-                if (item.Section.Contains(TrainSectionString) && item.Direction == SectionDir && item.AccessState == 1)
+                if (item.Section.Contains(TrainSectionString) && item.Direction == TrainDir && item.AccessState == 1)
                 {
                     CurTrainIn.Add(item);
                 }
             }
         }
 
-        private int GetSectionDir(string TrainSection)
+        public byte[] SectionOccpy(string CurSection,int TrainDir)
         {
-            int Dir = FindSectionDirection(MainWindow.stationElements_.Elements, TrainSection);
-            if (Dir == 2)
-            {
-                Dir = FindSectionDirection(MainWindow.stationElements_1_.Elements, TrainSection);
-            }
-            return Dir;
-        }
-
-        private int FindSectionDirection(List<线路绘图工具.GraphicElement> Elements, string TrainSection)
-        {
-            foreach (var item in Elements)
-            {
-                if (item is Section)
-                {
-                    if ((item as Section).Name.Substring(0, 3) == TrainSection)
-                    {
-                        return (item as Section).Direction;
-                    }
-                }
-                else if (item is RailSwitch)
-                {
-                    if ((item as RailSwitch).SectionName.Substring(0, 3) == TrainSection)
-                    {
-                        return (item as RailSwitch).Direction;
-                    }
-                }
-            }
-            return 2;
-        }
-
-        public byte[] SectionOccpy(string CurSection)
-        {
-            byte[] OccupyMA = SectionOccpyJudge(CurSection, MainWindow.stationElements_.Elements);
+            byte[] OccupyMA = SectionOccpyJudge(CurSection, MainWindow.stationElements_.Elements,TrainDir);
             if (OccupyMA == null)
             {
-                SectionOccpyJudge(CurSection, MainWindow.stationElements_1_.Elements);
+                SectionOccpyJudge(CurSection, MainWindow.stationElements_1_.Elements,TrainDir);
             }
             return OccupyMA;
         }
 
-        private byte[] SectionOccpyJudge(string CurSection, List<线路绘图工具.GraphicElement> Elements)
+        private byte[] SectionOccpyJudge(string CurSection, List<线路绘图工具.GraphicElement> Elements,int TrainDir)
         {
             foreach (var item in Elements)
             {
                 if (item is Section)
 	            {
-                    if ((item as Section).Name.Substring(0,3) == CurSection)
+                    if ((item as Section).Name.Substring(0,3) == CurSection.Substring(0,3))
 	                {
 		                if ((item as Section).TrainOccupy == 0 || (item as Section).AxleOccupy == 0)
                         {
-                            MASection = item.Name;
-                            MAOffset = (item as Section).Offset;
-                            MADir = (item as Section).Direction;
+                            MASection = item.Name.Substring(0,3);
+                            MAOffset = (item as Section).Offset;/////////////////////////////////
+                            MADir = TrainDir;
                             return ConvertToByte(MASection, MAOffset, MADir);
                         }
 	                }
 	            }
                 else if (item is RailSwitch)
 	            {
-                    if ((item as RailSwitch).SectionName.Substring(0,3) == CurSection)
+                    if ((item as RailSwitch).SectionName.Substring(0, 3) == CurSection.Substring(0, 3) 
+                        && (item as RailSwitch).Name == CurSection.Substring(4))
 	                {
 		                if ((item as RailSwitch).TrainOccupy == 0 || (item as RailSwitch).AxleOccupy == 0)
                         {
-                            MASection = item.Name;
-                            MADir = (item as RailSwitch).Direction;
-                            MAOffset = (item as RailSwitch).Offset;
+                            MASection = (item as RailSwitch).SectionName.Substring(0,3);
+                            MADir = TrainDir;
+                            MAOffset = (item as RailSwitch).Offset;/////////////////////////////////////
                             return ConvertToByte(MASection, MAOffset, MADir);
                         }
 	                }
@@ -266,6 +248,13 @@ namespace 线路数据应用示例
                     return item;
                 }
             }
+            foreach (var item in AddCIAccess.CITableListTop)
+            {
+                if (item.StartSection == SectionName && item.AccessState == 1 && item.Direction == Direction)
+                {
+                    return item;
+                }
+            }
             return null;
         }
 
@@ -277,7 +266,7 @@ namespace 线路数据应用示例
                 {
                     if (element is RailSwitch)
 	                {
-		                if ((element as RailSwitch).SectionName.Substring(0,3) == item)
+		                if ((element as RailSwitch).SectionName.Substring(0,3) == item.Substring(0,3))
 	                    {
 		                    NumOfBarrier++;
                             break;
@@ -288,7 +277,7 @@ namespace 线路数据应用示例
                 {
                     if (element is RailSwitch)
 	                {
-                        if ((element as RailSwitch).SectionName.Substring(0,3) == item)
+                        if ((element as RailSwitch).SectionName.Substring(0,3) == item.Substring(0,3))
 	                    {
                             NumOfBarrier++;
                             break;

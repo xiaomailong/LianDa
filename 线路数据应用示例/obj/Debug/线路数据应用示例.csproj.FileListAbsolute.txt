@@ -140,3 +140,9 @@ C:\Users\Administrator\Desktop\联大\3.14\线路数据应用示例 - 副本 (3.
 C:\Users\Administrator\Desktop\联大\3.14\线路数据应用示例 - 副本 (3.7)\线路数据应用示例\obj\Debug\线路数据应用示例.g.resources
 C:\Users\Administrator\Desktop\联大\3.14\线路数据应用示例 - 副本 (3.7)\线路数据应用示例\obj\Debug\线路数据应用示例.Properties.Resources.resources
 C:\Users\Administrator\Desktop\联大\3.14\线路数据应用示例 - 副本 (3.7)\线路数据应用示例\obj\Debug\线路数据应用示例.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\ZC\线路数据应用示例\bin\Debug\线路数据应用示例.exe.config
+C:\Users\Administrator\Desktop\ZC\线路数据应用示例\obj\Debug\线路数据应用示例.exe
+C:\Users\Administrator\Desktop\ZC\线路数据应用示例\obj\Debug\线路数据应用示例.pdb
+C:\Users\qing\Desktop\ZC - 副本\ZC - 副本\线路数据应用示例\bin\Debug\线路数据应用示例.exe.config
+C:\Users\qing\Desktop\ZC - 副本\ZC - 副本\线路数据应用示例\obj\Debug\线路数据应用示例.exe
+C:\Users\qing\Desktop\ZC - 副本\ZC - 副本\线路数据应用示例\obj\Debug\线路数据应用示例.pdb
