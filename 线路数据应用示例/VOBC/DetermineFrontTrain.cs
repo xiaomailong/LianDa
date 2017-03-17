@@ -141,16 +141,16 @@ namespace 线路数据应用示例
             {
                 if ((RailSwitch as RailSwitch).IsPositionNormal == true && (RailSwitch as RailSwitch).IsPositionReverse == false)
                 {
-                    return 50;
+                    return 45;
                 }
                 else
                 {
-                    return 25;
+                    return 20;
                 }
             }
             else
             {
-                return 25;
+                return 20;
             }
         }
 
@@ -235,7 +235,14 @@ namespace 线路数据应用示例
             MAEnd[3] = 0;
             MAEnd[4] = 0;
             MAEnd[5] = 0;
-            MAEnd[6] = Convert.ToByte(MADir);
+            if (MADir == 0)
+            {
+                MAEnd[6] = 0xaa;
+            }
+            else if (MADir == 1)
+            {
+                MAEnd[6] = 0x55;
+            }
             return MAEnd;
         }
 

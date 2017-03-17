@@ -72,7 +72,6 @@
     <Compile Include="Communication\ReceiveData.cs" />
     <Compile Include="Communication\VOBCorCI.cs" />
     <Compile Include="Section.cs" />
-    <Compile Include="Communication\SendMessage.cs" />
     <Compile Include="Signal.cs" />
     <Compile Include="StationElements.cs" />
     <Compile Include="StationTopoloty.cs" />

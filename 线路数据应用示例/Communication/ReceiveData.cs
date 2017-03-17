@@ -13,10 +13,21 @@ namespace 线路数据应用示例
 {
     class ReceiveData
     {
-        public Socket socketMain = null;
-        private string HostIP = "127.0.0.1";
-        private int HostPort = 8000;  //暂定写死，以后根据情况加配置文件
+        public static Socket socketMain = null;
+        private string HostIP = "192.168.1.112";
+        private int HostPort = 8001;  //暂定写死，以后根据情况加配置文件
+        public static string DIP;
+        public static int Dport;
         public bool runningFlag;
+
+        public ReceiveData()
+        {
+            IPEndPoint IPEP = new IPEndPoint(IPAddress.Parse(HostIP), HostPort);
+            EndPoint EP = (EndPoint)IPEP;
+            socketMain = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            socketMain.Blocking = true;
+            socketMain.Bind(EP);
+        }
 
         byte[] receiveDataArray = new byte[1024];
         Thread thread;
@@ -25,9 +36,10 @@ namespace 线路数据应用示例
         public void Start()
         {
             runningFlag = true;
-            thread = new Thread(new ThreadStart(this.ListenControlData));
+            thread = new Thread(ListenControlData);
             thread.IsBackground = true;
             thread.Start();
+            
         }
 
         public void ListenControlData()
@@ -42,13 +54,13 @@ namespace 线路数据应用示例
                     int nRecv = socketMain.ReceiveFrom(receiveDataArray, ref EP);
                     SaveData(receiveDataArray);
                 }
-                catch
+                catch(Exception e)
                 {
-
+                   
                 }
             }
         }
-
+        
         private void SaveData(byte[] receiveDataArray)
         {
             DATA = receiveDataArray;
@@ -60,27 +72,21 @@ namespace 线路数据应用示例
             receiveDataArray = new byte[1024];
         }
 
+        public static void SendControlData(byte[] sendControlPacket, int packetLength)
+        {
 
+            IPEndPoint ipep = new IPEndPoint(IPAddress.Parse(DIP), Dport);
+            EndPoint ep = (EndPoint)ipep;
+            socketMain.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 0);
+            try
+            {
+                socketMain.SendTo(sendControlPacket, 0, packetLength, SocketFlags.None, ipep);
+            }
+            catch (Exception e)
+            {
+            }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        }
 
     }
 }

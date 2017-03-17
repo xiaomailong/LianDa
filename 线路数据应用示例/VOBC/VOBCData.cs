@@ -9,7 +9,7 @@ namespace 线路数据应用示例
     class VOBCData
     {
         HandleVOBCData Handle;
-        InfoSendToVOBC InfoSendToVOBC = new InfoSendToVOBC();
+        public InfoSendToVOBC InfoSendToVOBC = new InfoSendToVOBC();
         DetermineFrontTrain Determine = new DetermineFrontTrain();
         private byte[] Data;
         public VOBCData(byte[] data, HandleVOBCData handle)

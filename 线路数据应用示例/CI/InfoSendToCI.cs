@@ -34,9 +34,9 @@ namespace 线路数据应用示例
             {
                 DataString = DataString.PadRight(((DataString.Length / 8) + 1) * 8, '0');
             }
-            DataSendToCI = new byte[DataString.Length / 8 + 10];
-            DataLength = DataString.Length / 8 + 10;
-            int j = 10;
+            DataSendToCI = new byte[DataString.Length / 8 + 8];
+            DataLength = DataString.Length / 8 + 8;
+            int j = 8;
             for (int i = 0; i < DataString.Length; i += 8)
             {
                 string b8 = DataString.Substring(i, 8);

@@ -89,7 +89,7 @@ namespace 线路数据应用示例
             }
         }
 
-        bool isLastLogicOccupy_ = true;
+        bool isLastLogicOccupy_ = false;
         public bool IsLastLogicOccupy
         {
             get { return isLastLogicOccupy_; }

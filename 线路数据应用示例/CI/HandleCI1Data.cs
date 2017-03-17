@@ -8,8 +8,8 @@ namespace 线路数据应用示例
 {
     class HandleCI1Data
     {
-        private string DataString; 
-        private int num = 0;
+        private string DataString;
+        private int num = 64;
 
         public HandleCI1Data(byte[] CIData)
         {
@@ -65,13 +65,13 @@ namespace 线路数据应用示例
             {
                 if (item is Section)
                 {
-                    (item as Section).Direction = Convert.ToInt16(Data.Substring(num, 1));
-                    num++;
+                    (item as Section).Direction = Convert.ToInt16(Data.Substring(num, 1)) == 1 ? 0 : 1;
+                    num = num + 2;
                 }
             }
+            Dictionary<string, int> RailSwitchDir = new Dictionary<string, int>();
             foreach (var item in MainWindow.stationElements_1_.Elements)
             {
-                Dictionary<string, int> RailSwitchDir = new Dictionary<string, int>();
                 if (item is RailSwitch)
                 {
                     if (RailSwitchDir.Keys.Contains((item as RailSwitch).SectionName))
@@ -80,9 +80,9 @@ namespace 线路数据应用示例
                     }
                     else
                     {
-                        (item as RailSwitch).Direction = Convert.ToInt16(Data.Substring(num, 1));
-                        RailSwitchDir.Add((item as RailSwitch).SectionName, Convert.ToInt16(Data.Substring(num, 1)));
-                        num++;
+                        (item as RailSwitch).Direction = Convert.ToInt16(Data.Substring(num, 1)) == 1 ? 0 : 1;
+                        RailSwitchDir.Add((item as RailSwitch).SectionName, (item as RailSwitch).Direction);
+                        num = num + 2;
                     }
                 }
             }
@@ -95,27 +95,42 @@ namespace 线路数据应用示例
                 if (item is Section)
                 {
                     (item as Section).AxleOccupy = Convert.ToInt16(Data.Substring(num, 1));
-                    item.InvalidateVisual();
+                    System.Windows.Application.Current.Dispatcher.Invoke(
+                        new Action(
+                            delegate
+                            {
+                                (item as Section).InvalidateVisual();
+                            }));
                     num++;
                 }
             }
+            Dictionary<string, int> RailSwitchAxleState = new Dictionary<string, int>();
             foreach (var item in MainWindow.stationElements_1_.Elements)
             {
                 if (item is RailSwitch)
                 {
-                    Dictionary<string, int> RailSwitchAxleState = new Dictionary<string, int>();
                     if (item is RailSwitch)
                     {
                         if (RailSwitchAxleState.Keys.Contains((item as RailSwitch).SectionName))
                         {
                             (item as RailSwitch).AxleOccupy = RailSwitchAxleState[(item as RailSwitch).SectionName];
-                            item.InvalidateVisual();
+                            System.Windows.Application.Current.Dispatcher.Invoke(
+                            new Action(
+                            delegate
+                            {
+                                item.InvalidateVisual();
+                            }));
                         }
                         else
                         {
                             (item as RailSwitch).AxleOccupy = Convert.ToInt16(Data.Substring(num, 1));
                             RailSwitchAxleState.Add((item as RailSwitch).SectionName, Convert.ToInt16(Data.Substring(num, 1)));
-                            item.InvalidateVisual();
+                            System.Windows.Application.Current.Dispatcher.Invoke(
+                             new Action(
+                             delegate
+                             {
+                                 item.InvalidateVisual();
+                             }));
                             num++;
                         }
                     }
@@ -133,11 +148,11 @@ namespace 线路数据应用示例
                     num++;
                 }
             }
+            Dictionary<string, bool> RailSwitchAccessLock = new Dictionary<string, bool>();
             foreach (var item in MainWindow.stationElements_1_.Elements)
             {
                 if (item is RailSwitch)
                 {
-                    Dictionary<string, bool> RailSwitchAccessLock = new Dictionary<string, bool>();
                     if (item is RailSwitch)
                     {
                         if (RailSwitchAccessLock.Keys.Contains((item as RailSwitch).SectionName))
@@ -162,8 +177,12 @@ namespace 线路数据应用示例
                 if (item is Signal)
                 {
                     (item as Signal).IsSignalOpen = (Data.Substring(num, 1) == "1" ? true : false);
-                    item.InvalidateVisual();
-                    num++;
+                    System.Windows.Application.Current.Dispatcher.Invoke(
+                     new Action(
+                     delegate
+                     {
+                         item.InvalidateVisual();
+                     })); num++;
                 }
             }
         }

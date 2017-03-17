@@ -87,7 +87,14 @@ namespace 线路数据应用示例
 
         private void GetDirection(byte[] Data)
         {
-            _Q_TrainRealDirection = Data[33];
+            if (Data[33] == 0x55)
+            {
+                _Q_TrainRealDirection = 1;
+            }
+            if (Data[33] == 0xaa)
+            {
+                _Q_TrainRealDirection = 0;
+            }
             if (TrainDirection.Keys.Contains(Data[9]))
             {
                 TrainDirection[Data[9]] = _Q_TrainRealDirection;

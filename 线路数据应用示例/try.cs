@@ -227,8 +227,12 @@ namespace 线路数据应用示例
                 if (item is Section)
                 {
                     (item as Section).AxleOccupy = Convert.ToInt16(Data.Substring(num, 1));
-                    item.InvalidateVisual();
-                    num++;
+                    System.Windows.Application.Current.Dispatcher.Invoke(
+                     new Action(
+                     delegate
+                     {
+                         item.InvalidateVisual();
+                     })); num++;
                 }
             }
             foreach (var item in MainWindow.stationElements_1_.Elements)
@@ -241,7 +245,12 @@ namespace 线路数据应用示例
                         if (RailSwitchAxleState.Keys.Contains((item as RailSwitch).SectionName))
                         {
                             (item as RailSwitch).AxleOccupy = RailSwitchAxleState[(item as RailSwitch).SectionName];
-                            item.InvalidateVisual();
+                            System.Windows.Application.Current.Dispatcher.Invoke(
+                             new Action(
+                             delegate
+                             {
+                                 item.InvalidateVisual();
+                             }));
                         }
                         else
                         {
