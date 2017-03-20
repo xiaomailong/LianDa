@@ -15,7 +15,7 @@ namespace 线路数据应用示例
     {
         public static Socket socketMain = null;
         private string HostIP = "127.0.0.1";
-        private int HostPort = 8001;  //暂定写死，以后根据情况加配置文件
+        private int HostPort = 4001;  //暂定写死，以后根据情况加配置文件
         public static string DIP;
         public static int Dport;
         public bool runningFlag;

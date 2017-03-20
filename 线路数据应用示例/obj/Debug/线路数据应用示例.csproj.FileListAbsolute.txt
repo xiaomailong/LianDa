@@ -205,3 +205,17 @@ C:\Users\Administrator\Desktop\3.20\ZC\LianDa\线路数据应用示例\obj\Debug
 C:\Users\Administrator\Desktop\3.20\ZC\LianDa\线路数据应用示例\obj\Debug\线路数据应用示例.g.resources
 C:\Users\Administrator\Desktop\3.20\ZC\LianDa\线路数据应用示例\obj\Debug\线路数据应用示例.Properties.Resources.resources
 C:\Users\Administrator\Desktop\3.20\ZC\LianDa\线路数据应用示例\obj\Debug\线路数据应用示例.csproj.GenerateResource.Cache
+C:\Users\qing\Desktop\联大ZC\线路数据应用示例\bin\Debug\线路数据应用示例.exe.config
+C:\Users\qing\Desktop\联大ZC\线路数据应用示例\obj\Debug\线路数据应用示例.exe
+C:\Users\qing\Desktop\联大ZC\线路数据应用示例\obj\Debug\线路数据应用示例.pdb
+C:\Users\qing\Desktop\联大ZC\线路数据应用示例\bin\Debug\线路数据应用示例.exe
+C:\Users\qing\Desktop\联大ZC\线路数据应用示例\bin\Debug\线路数据应用示例.pdb
+C:\Users\qing\Desktop\联大ZC\线路数据应用示例\obj\Debug\线路数据应用示例.csprojResolveAssemblyReference.cache
+C:\Users\qing\Desktop\联大ZC\线路数据应用示例\obj\Debug\MainWindow.g.cs
+C:\Users\qing\Desktop\联大ZC\线路数据应用示例\obj\Debug\App.g.cs
+C:\Users\qing\Desktop\联大ZC\线路数据应用示例\obj\Debug\线路数据应用示例_MarkupCompile.cache
+C:\Users\qing\Desktop\联大ZC\线路数据应用示例\obj\Debug\线路数据应用示例_MarkupCompile.lref
+C:\Users\qing\Desktop\联大ZC\线路数据应用示例\obj\Debug\MainWindow.baml
+C:\Users\qing\Desktop\联大ZC\线路数据应用示例\obj\Debug\线路数据应用示例.g.resources
+C:\Users\qing\Desktop\联大ZC\线路数据应用示例\obj\Debug\线路数据应用示例.Properties.Resources.resources
+C:\Users\qing\Desktop\联大ZC\线路数据应用示例\obj\Debug\线路数据应用示例.csproj.GenerateResource.Cache

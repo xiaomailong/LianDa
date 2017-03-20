@@ -8,6 +8,8 @@ namespace 线路数据应用示例
 {
     class VOBCorCI
     {
+        public static List<byte> a = new List<byte>();
+
         public static List<byte> VOBCNonCom = new List<byte>();
         public static int NumToVOBC = 1;
         public static int NumToCI1 = 1;
@@ -15,18 +17,20 @@ namespace 线路数据应用示例
 
         public VOBCorCI(byte[] DATA)
         {
+            a.Add(DATA[49]);
+
             int DataType = Convert.ToInt16(DATA[4]);
             if (DataType == 4 || DataType == 5 || DataType == 6 || DataType == 7)
             {
                HandleVOBC(DataType,DATA);
             }
-            if (DataType == 1)
+            if (DataType == 2)
             {
                 HandleCI1Data HandleCI1Data = new HandleCI1Data(DATA);
                 InfoSendToCI SendToCI = new InfoSendToCI();
                 byte[] Head = WriteCIHead(NumToCI1, DataType, SendToCI.DataLength);
                 Array.Copy(Head, SendToCI.DataSendToCI, 8);
-                Send(SendToCI.DataSendToCI, "127.0.0.1", 8003);
+                Send(SendToCI.DataSendToCI, "127.0.0.1", 5000);
                 if (NumToCI1 < 65536)
                 {
                     NumToCI1++;
@@ -36,13 +40,13 @@ namespace 线路数据应用示例
                     NumToCI1 = 1;
                 }
             }
-            if (DataType == 2)
+            if (DataType == 1)
             {
                 HandleCI2Data HandleCI2Data = new HandleCI2Data(DATA);
                 InfoSendToCI SendToCI = new InfoSendToCI();
                 byte[] Head = WriteCIHead(NumToCI2, DataType, SendToCI.DataLength);
                 Array.Copy(Head, SendToCI.DataSendToCI, 8);
-                Send(SendToCI.DataSendToCI, "127.0.0.1", 8005);
+                Send(SendToCI.DataSendToCI, "127.0.0.1", 5000);
                 if (NumToCI2 < 65536)
                 {
                     NumToCI2++;
