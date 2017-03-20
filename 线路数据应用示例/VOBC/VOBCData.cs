@@ -76,7 +76,7 @@ namespace 线路数据应用示例
             MAHead[4] = 0;
             MAHead[5] = 0;
             Array.Copy(MAHead, 0, InfoSendToVOBC.ReplyMessageToZC, 21, 6);
-            InfoSendToVOBC.ReplyMessageToZC[27] = Handle.Q_TrainRealDirection;
+            InfoSendToVOBC.ReplyMessageToZC[27] = Data[33];
         }
 
         private void SetMATail()

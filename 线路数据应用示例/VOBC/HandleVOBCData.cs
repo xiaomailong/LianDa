@@ -50,9 +50,9 @@ namespace 线路数据应用示例
 
         private void AddTrain(byte[] Data)
         {
-            if (!Train.Contains(Data[9]))
+            if (!Train.Contains(Data[8]))
             {
-                Train.Add(Data[9]);
+                Train.Add(Data[8]);
             }
         }
 
@@ -73,15 +73,15 @@ namespace 线路数据应用示例
 
         private void GetTrainPosition(byte[] Data)
         {
-            if (TrainPosition.Keys.Contains(Data[10]))
+            if (TrainPosition.Keys.Contains(Data[8]))
             {
-                Array.Copy(Data, 20, TrainPosition[Data[10]], 0, 12);
+                Array.Copy(Data, 20, TrainPosition[Data[8]], 0, 12);
             }
             else
             {
                 byte[] Position = new byte[12];
                 Array.Copy(Data, 20, Position, 0, 12);
-                TrainPosition.Add(Data[11], Position);
+                TrainPosition.Add(Data[8], Position);
             }
         }
 
@@ -95,13 +95,13 @@ namespace 线路数据应用示例
             {
                 _Q_TrainRealDirection = 0;
             }
-            if (TrainDirection.Keys.Contains(Data[9]))
+            if (TrainDirection.Keys.Contains(Data[8]))
             {
-                TrainDirection[Data[9]] = _Q_TrainRealDirection;
+                TrainDirection[Data[8]] = _Q_TrainRealDirection;
             }
             else
             {
-                TrainDirection.Add(Data[9], _Q_TrainRealDirection);
+                TrainDirection.Add(Data[8], _Q_TrainRealDirection);
             }
         }
     }

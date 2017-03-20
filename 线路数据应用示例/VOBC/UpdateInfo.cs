@@ -12,20 +12,44 @@ namespace 线路数据应用示例
         List<Device> NeedChange = new List<Device>();
         HandleVOBCData VOBCInfo;
         public static Dictionary<byte, byte[]> PreTrainPosition = new Dictionary<byte, byte[]>();
+        byte[] Data;
 
-        public UpdateInfo(HandleVOBCData Handle)
+        public UpdateInfo(HandleVOBCData Handle, byte[] Data)
         {
+            this.Data = Data;
             this.VOBCInfo = Handle;
             CancelPreTrainPosition();
             UpDataTrainOccupy();
             UpdataLine();
+            UpdatePrePosition();
         }
 
         private void UpdataLine()
         {
             foreach (var item in NeedChange)
             {
-                item.InvalidateVisual();
+                System.Windows.Application.Current.Dispatcher.Invoke(
+                new Action(
+                delegate
+                {
+                    item.InvalidateVisual();
+                }));
+            }
+        }
+
+        public void UpdatePrePosition()
+        {
+            if (PreTrainPosition.Keys.Contains(VOBCInfo.NID_Train))
+            {
+                //byte[] pre = new byte[12];
+                Array.Copy(Data, 20, PreTrainPosition[VOBCInfo.NID_Train], 0, 12);
+                //PreTrainPosition[VOBCInfo.NID_Train] = HandleVOBCData.TrainPosition[VOBCInfo.NID_Train];
+            }
+            else
+            {
+                byte[] pre = new byte[12];
+                Array.Copy(Data, 20, pre, 0, 12);
+                PreTrainPosition.Add(VOBCInfo.NID_Train, pre);
             }
         }
 
@@ -33,10 +57,10 @@ namespace 线路数据应用示例
         {
             if (PreTrainPosition.Keys.Contains(VOBCInfo.NID_Train))
             {
-                string PreTrainHeadPosition = (Convert.ToInt16(PreTrainPosition[VOBCInfo.NID_Train][0]) * 256 + Convert.ToInt16(PreTrainPosition[VOBCInfo.NID_Train][1])).ToString();
+                string PreTrainHeadPosition = (Convert.ToInt16(PreTrainPosition[VOBCInfo.NID_Train][1]) * 256 + Convert.ToInt16(PreTrainPosition[VOBCInfo.NID_Train][0])).ToString();
                 string PreTrainHeadRailSwitchName = (Convert.ToInt16(PreTrainPosition[VOBCInfo.NID_Train][2])).ToString();
                 Cancel(PreTrainHeadPosition, PreTrainHeadRailSwitchName);
-                string PreTrainTailPosition = (Convert.ToInt16(PreTrainPosition[VOBCInfo.NID_Train][6]) * 256 + Convert.ToInt16(PreTrainPosition[VOBCInfo.NID_Train][7])).ToString();
+                string PreTrainTailPosition = (Convert.ToInt16(PreTrainPosition[VOBCInfo.NID_Train][7]) * 256 + Convert.ToInt16(PreTrainPosition[VOBCInfo.NID_Train][6])).ToString();
                 string PreTrainTailRailSwitchName = (Convert.ToInt16(PreTrainPosition[VOBCInfo.NID_Train][8])).ToString();
                 Cancel(PreTrainTailPosition, PreTrainTailRailSwitchName);
             }
@@ -56,7 +80,7 @@ namespace 线路数据应用示例
             }
             else if(TraverseRailSwitch(PreTrainPosition, PreTrainHeadSwitchName) != null)
             {
-                TraverseRailSwitch(PreTrainPosition, PreTrainHeadSwitchName).TrainOccupy = 0;
+                TraverseRailSwitch(PreTrainPosition, PreTrainHeadSwitchName).TrainOccupy = 1;
                 if (!NeedChange.Contains(TraverseRailSwitch(PreTrainPosition, PreTrainHeadSwitchName) as Device))
                 {
                     NeedChange.Add(TraverseRailSwitch(PreTrainPosition, PreTrainHeadSwitchName));
@@ -69,22 +93,35 @@ namespace 线路数据应用示例
         {
             foreach (var item in MainWindow.stationElements_.Elements)
             {
-                if (item is Section)
+                try
                 {
-                    if ((item as Section).Name.Substring(0, 3) == TrainPosition)
+                    if (item is Section)
                     {
-                        return (item as Section);
+                        if ((item as Section).Name.Substring(0, 3) == TrainPosition)
+                        {
+                            return (item as Section);
+                        }
                     }
+                }
+                catch (Exception e)
+                {
+
                 }
             }
             foreach (var item in MainWindow.stationElements_1_.Elements)
             {
-                if (item is Section)
+                try
                 {
-                    if ((item as Section).Name.Substring(0, 3) == TrainPosition)
+                    if (item is Section)
                     {
-                        return (item as Section);
+                        if ((item as Section).Name.Substring(0, 3) == TrainPosition)
+                        {
+                            return (item as Section);
+                        }
                     }
+                }
+                catch (Exception e)
+                {
                 }
             }
             return null;
@@ -94,22 +131,36 @@ namespace 线路数据应用示例
         {
             foreach (var item in MainWindow.stationElements_.Elements)
             {
-                if (item is RailSwitch)
+                try
                 {
-                    if ((item as RailSwitch).SectionName.Substring(0,3) == TrainPosition && (item as RailSwitch).Name == TrainRailSwitchName)
+                    if (item is RailSwitch)
                     {
-                        return (item as RailSwitch);
+                        if ((item as RailSwitch).SectionName.Substring(0, 3) == TrainPosition && (item as RailSwitch).Name == TrainRailSwitchName)
+                        {
+                            return (item as RailSwitch);
+                        }
                     }
+                }
+                catch ( Exception e)
+                {
+
                 }
             }
             foreach (var item in MainWindow.stationElements_1_.Elements)
             {
-                if (item is RailSwitch)
+                try
                 {
-                    if ((item as RailSwitch).SectionName.Substring(0, 3) == TrainPosition && (item as RailSwitch).Name == TrainRailSwitchName)
+                    if (item is RailSwitch)
                     {
-                        return (item as RailSwitch);
+                        if ((item as RailSwitch).SectionName.Substring(0, 3) == TrainPosition && (item as RailSwitch).Name == TrainRailSwitchName)
+                        {
+                            return (item as RailSwitch);
+                        }
                     }
+                }
+                catch (Exception e)
+                {
+
                 }
             }
             return null;
@@ -117,11 +168,11 @@ namespace 线路数据应用示例
 
         private void UpDataTrainOccupy()
         {
-            string CurTrainHeadSectionName = (Convert.ToInt16(HandleVOBCData.TrainPosition[VOBCInfo.NID_Train][0]) * 256 + Convert.ToInt16(HandleVOBCData.TrainPosition[VOBCInfo.NID_Train][1])).ToString();
+            string CurTrainHeadSectionName = (Convert.ToInt16(HandleVOBCData.TrainPosition[VOBCInfo.NID_Train][1]) * 256 + Convert.ToInt16(HandleVOBCData.TrainPosition[VOBCInfo.NID_Train][0])).ToString();
             string CurTrainHeadName = (Convert.ToInt16(HandleVOBCData.TrainPosition[VOBCInfo.NID_Train][2])).ToString();
             int CurTrainHeadOffset = Convert.ToInt16(HandleVOBCData.TrainPosition[VOBCInfo.NID_Train][4]);
 
-            string CurTrainTailSectionName = (Convert.ToInt16(HandleVOBCData.TrainPosition[VOBCInfo.NID_Train][6]) * 256 + Convert.ToInt16(HandleVOBCData.TrainPosition[VOBCInfo.NID_Train][7])).ToString();
+            string CurTrainTailSectionName = (Convert.ToInt16(HandleVOBCData.TrainPosition[VOBCInfo.NID_Train][7]) * 256 + Convert.ToInt16(HandleVOBCData.TrainPosition[VOBCInfo.NID_Train][6])).ToString();
             string CurTrainTailName = (Convert.ToInt16(HandleVOBCData.TrainPosition[VOBCInfo.NID_Train][8])).ToString();
             int CurTrainTailOffset = Convert.ToInt16(HandleVOBCData.TrainPosition[VOBCInfo.NID_Train][10]);
 

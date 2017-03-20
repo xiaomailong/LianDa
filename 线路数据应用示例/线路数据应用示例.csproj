@@ -82,7 +82,6 @@
     <Compile Include="VOBC\HandleVOBCData.cs" />
     <Compile Include="VOBC\InfoSendToVOBC.cs" />
     <Compile Include="VOBC\VOBCData.cs" />
-    <Compile Include="练习\解码位.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

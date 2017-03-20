@@ -14,7 +14,7 @@ namespace 线路数据应用示例
     class ReceiveData
     {
         public static Socket socketMain = null;
-        private string HostIP = "192.168.1.112";
+        private string HostIP = "127.0.0.1";
         private int HostPort = 8001;  //暂定写死，以后根据情况加配置文件
         public static string DIP;
         public static int Dport;

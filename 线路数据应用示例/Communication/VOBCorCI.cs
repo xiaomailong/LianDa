@@ -42,7 +42,7 @@ namespace 线路数据应用示例
                 InfoSendToCI SendToCI = new InfoSendToCI();
                 byte[] Head = WriteCIHead(NumToCI2, DataType, SendToCI.DataLength);
                 Array.Copy(Head, SendToCI.DataSendToCI, 8);
-                Send(SendToCI.DataSendToCI, "192.168.1.112", 8005);
+                Send(SendToCI.DataSendToCI, "127.0.0.1", 8005);
                 if (NumToCI2 < 65536)
                 {
                     NumToCI2++;
@@ -63,7 +63,7 @@ namespace 线路数据应用示例
             }
             HandleVOBCData HandleVOBCData = new HandleVOBCData(DATA);
             VOBCData VOBCData = new VOBCData(DATA, HandleVOBCData);
-            UpdateInfo UpdateInfo = new UpdateInfo(HandleVOBCData);
+            UpdateInfo UpdateInfo = new UpdateInfo(HandleVOBCData,DATA);
             byte[] DataToVOBC = new byte[8 + VOBCData.InfoSendToVOBC.Obstacle.Length + 36];
             WriteVOBCHead(DataType).CopyTo(DataToVOBC,0);
             VOBCData.InfoSendToVOBC.ReplyMessageToZC.CopyTo(DataToVOBC, 8);
