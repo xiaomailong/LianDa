@@ -66,6 +66,7 @@
     <Compile Include="CI\HandleCI2Data.cs" />
     <Compile Include="ICheckDistance.cs" />
     <Compile Include="CI\InfoSendToCI.cs" />
+    <Compile Include="IPConfigure.cs" />
     <Compile Include="RailSwitch.cs" />
     <Compile Include="Communication\HiPerfTimer.cs" />
     <Compile Include="Communication\NonCommunicationTrain.cs" />

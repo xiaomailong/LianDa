@@ -30,7 +30,7 @@ namespace 线路数据应用示例
                 InfoSendToCI SendToCI = new InfoSendToCI();
                 byte[] Head = WriteCIHead(NumToCI1, DataType, SendToCI.DataLength);
                 Array.Copy(Head, SendToCI.DataSendToCI, 8);
-                Send(SendToCI.DataSendToCI, "127.0.0.1", 5000);
+                Send(SendToCI.DataSendToCI, GetIPByDataType(DataType), GetPortByDataType(DataType));
                 if (NumToCI1 < 65536)
                 {
                     NumToCI1++;
@@ -46,7 +46,7 @@ namespace 线路数据应用示例
                 InfoSendToCI SendToCI = new InfoSendToCI();
                 byte[] Head = WriteCIHead(NumToCI2, DataType, SendToCI.DataLength);
                 Array.Copy(Head, SendToCI.DataSendToCI, 8);
-                Send(SendToCI.DataSendToCI, "127.0.0.1", 5000);
+                Send(SendToCI.DataSendToCI, GetIPByDataType(DataType), GetPortByDataType(DataType));
                 if (NumToCI2 < 65536)
                 {
                     NumToCI2++;
@@ -72,7 +72,7 @@ namespace 线路数据应用示例
             WriteVOBCHead(DataType).CopyTo(DataToVOBC,0);
             VOBCData.InfoSendToVOBC.ReplyMessageToZC.CopyTo(DataToVOBC, 8);
             VOBCData.InfoSendToVOBC.Obstacle.CopyTo(DataToVOBC, 8 + VOBCData.InfoSendToVOBC.ReplyMessageToZC.Length);
-            Send(DataToVOBC, "121.194.59.122", 7000);
+            Send(DataToVOBC, GetIPByDataType(DataType), GetPortByDataType(DataType));
         }
 
         public byte[] WriteCIHead(int Num, int DataType, int DataLength)
@@ -108,6 +108,30 @@ namespace 线路数据应用示例
             ReceiveData.DIP = IP;
             ReceiveData.Dport = port;
             ReceiveData.SendControlData(Data, Data.Length);
+        }
+
+        public string GetIPByDataType(int DataType)
+        {
+            foreach (var item in IPConfigure.IPList)
+            {
+                if (item.DeviceID == DataType)
+                {
+                    return item.IP;
+                }
+            }
+            return null;
+        }
+
+        public int GetPortByDataType(int DataType)
+        {
+            foreach (var item in IPConfigure.IPList)
+            {
+                if (item.DeviceID == DataType)
+                {
+                    return item.Port;
+                }
+            }
+            return 0;
         }
     }
 }

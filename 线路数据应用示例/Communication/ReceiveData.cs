@@ -14,19 +14,32 @@ namespace 线路数据应用示例
     class ReceiveData
     {
         public static Socket socketMain = null;
-        private string HostIP = "127.0.0.1";
-        private int HostPort = 4001;  //暂定写死，以后根据情况加配置文件
+        private string HostIP;
+        private int HostPort;
         public static string DIP;
         public static int Dport;
         public bool runningFlag;
 
         public ReceiveData()
         {
+            SetHostIPAndPort();
             IPEndPoint IPEP = new IPEndPoint(IPAddress.Parse(HostIP), HostPort);
             EndPoint EP = (EndPoint)IPEP;
             socketMain = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             socketMain.Blocking = true;
             socketMain.Bind(EP);
+        }
+
+        public void SetHostIPAndPort()
+        {
+            foreach (var item in IPConfigure.IPList)
+            {
+                if (item.DeviveName == "ZC")
+                {
+                    HostIP = item.IP;
+                    HostPort = item.Port;
+                }
+            }
         }
 
         byte[] receiveDataArray = new byte[1024];

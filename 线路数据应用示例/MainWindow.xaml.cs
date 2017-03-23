@@ -29,8 +29,9 @@ namespace 线路数据应用示例
 
             LoadSecondStation();
 
-            AddCIAccess a = new AddCIAccess();
-            
+            AddCIAccess LoadInterlockTable = new AddCIAccess();
+            IPConfigure LoadIPConfig = new IPConfigure();
+
             Receive = new ReceiveData();
             Receive.Start();
         }
