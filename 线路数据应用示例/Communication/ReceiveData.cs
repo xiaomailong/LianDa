@@ -34,7 +34,7 @@ namespace 线路数据应用示例
         {
             foreach (var item in IPConfigure.IPList)
             {
-                if (item.DeviveName == "ZC")
+                if (item.DeviceName == "ZC")
                 {
                     HostIP = item.IP;
                     HostPort = item.Port;

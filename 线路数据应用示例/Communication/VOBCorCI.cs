@@ -25,7 +25,7 @@ namespace 线路数据应用示例
             {
                 HandleCI2Data HandleCI1Data = new HandleCI2Data(DATA);
                 InfoSendToCI SendToCI = new InfoSendToCI();
-                byte[] Head = WriteCIHead(NumToCI1, DataType, SendToCI.DataLength);
+                byte[] Head = WriteCIHead(NumToCI1, DataType, 29);
                 Array.Copy(Head, SendToCI.DataSendToCI, 8);
                 Send(SendToCI.DataSendToCI, GetIPByDataType(DataType), GetPortByDataType(DataType));
                 if (NumToCI1 < 65536)
@@ -41,7 +41,7 @@ namespace 线路数据应用示例
             {
                 HandleCI1Data HandleCI2Data = new HandleCI1Data(DATA);
                 InfoSendToCI SendToCI = new InfoSendToCI();
-                byte[] Head = WriteCIHead(NumToCI2, DataType, SendToCI.DataLength);
+                byte[] Head = WriteCIHead(NumToCI2, DataType, 29);
                 Array.Copy(Head, SendToCI.DataSendToCI, 8);
                 Send(SendToCI.DataSendToCI, GetIPByDataType(DataType), GetPortByDataType(DataType));
                 if (NumToCI2 < 65536)

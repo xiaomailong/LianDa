@@ -8,7 +8,7 @@ namespace 线路数据应用示例
 {
     class HandleCI2Data
     {
-        MyStruct struct_ = new MyStruct();
+        Unpack struct_ = new Unpack();
         List<bool> Info = new List<bool>();
         int Num;
 

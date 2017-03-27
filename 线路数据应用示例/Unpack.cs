@@ -2,7 +2,7 @@
 
 namespace 线路数据应用示例
 {
-    class MyStruct
+    class Unpack
     {
         int byteFlag_ = 12;
         int bitFlag_ = 0;
@@ -21,11 +21,6 @@ namespace 线路数据应用示例
             value |= buf_[byteFlag_];
             byteFlag_ += 2;
             return value;
-        }
-
-        public byte GetByte()
-        {
-            return buf_[byteFlag_++];
         }
 
         public bool GetBit()

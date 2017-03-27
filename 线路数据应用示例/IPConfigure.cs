@@ -22,13 +22,13 @@ namespace 线路数据应用示例
 
         public IPConfigure()
         {
-            foreach (string Decive in Section)
+            foreach (string Device in Section)
             {
                 IPList IP = new IPList();
-                IP.DeviveName = Decive;
-                IP.DeviceID = Convert.ToInt16(ReadIniData(Decive, "DeviceID", "", IPConfigPath));
-                IP.IP = IPAddress.Parse(ReadIniData(Decive, "IP", "", IPConfigPath));
-                IP.Port = Convert.ToInt16(ReadIniData(Decive, "Port", "", IPConfigPath));
+                IP.DeviceName = Device;
+                IP.DeviceID = Convert.ToInt16(ReadIniData(Device, "DeviceID", "", IPConfigPath));
+                IP.IP = IPAddress.Parse(ReadIniData(Device, "IP", "", IPConfigPath));
+                IP.Port = Convert.ToInt16(ReadIniData(Device, "Port", "", IPConfigPath));
                 IPList.Add(IP);
             }
         }
@@ -58,7 +58,7 @@ namespace 线路数据应用示例
 
     struct IPList
     {
-        public string DeviveName;
+        public string DeviceName;
         public int DeviceID;
         public IPAddress IP;
         public int Port;
