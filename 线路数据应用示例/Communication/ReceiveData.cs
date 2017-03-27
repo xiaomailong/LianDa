@@ -14,16 +14,16 @@ namespace 线路数据应用示例
     class ReceiveData
     {
         public static Socket socketMain = null;
-        private string HostIP;
+        private IPAddress HostIP;
         private int HostPort;
-        public static string DIP;
+        public static IPAddress DIP;
         public static int Dport;
         public bool runningFlag;
 
         public ReceiveData()
         {
             SetHostIPAndPort();
-            IPEndPoint IPEP = new IPEndPoint(IPAddress.Parse(HostIP), HostPort);
+            IPEndPoint IPEP = new IPEndPoint(HostIP, HostPort);
             EndPoint EP = (EndPoint)IPEP;
             socketMain = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             socketMain.Blocking = true;
@@ -57,7 +57,7 @@ namespace 线路数据应用示例
 
         public void ListenControlData()
         {
-            IPEndPoint ipEP = new IPEndPoint(IPAddress.Parse(HostIP), HostPort);
+            IPEndPoint ipEP = new IPEndPoint(HostIP, HostPort);
             EndPoint EP = (EndPoint)ipEP;
 
             while (runningFlag)
@@ -69,7 +69,7 @@ namespace 线路数据应用示例
                 }
                 catch(Exception e)
                 {
-                   
+                    
                 }
             }
         }
@@ -79,16 +79,14 @@ namespace 线路数据应用示例
             DATA = receiveDataArray;
             if (DATA != null)
             {
-                receiveDataArray = new byte[1024];
                 VOBCorCI VOBCorCI = new VOBCorCI(DATA);
             }
-            receiveDataArray = new byte[1024];
         }
 
         public static void SendControlData(byte[] sendControlPacket, int packetLength)
         {
 
-            IPEndPoint ipep = new IPEndPoint(IPAddress.Parse(DIP), Dport);
+            IPEndPoint ipep = new IPEndPoint(DIP, Dport);
             EndPoint ep = (EndPoint)ipep;
             socketMain.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendTimeout, 0);
             try

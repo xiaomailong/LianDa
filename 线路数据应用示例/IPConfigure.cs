@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace 线路数据应用示例
                 IPList IP = new IPList();
                 IP.DeviveName = Decive;
                 IP.DeviceID = Convert.ToInt16(ReadIniData(Decive, "DeviceID", "", IPConfigPath));
-                IP.IP = ReadIniData(Decive, "IP", "", IPConfigPath);
+                IP.IP = IPAddress.Parse(ReadIniData(Decive, "IP", "", IPConfigPath));
                 IP.Port = Convert.ToInt16(ReadIniData(Decive, "Port", "", IPConfigPath));
                 IPList.Add(IP);
             }
@@ -59,7 +60,7 @@ namespace 线路数据应用示例
     {
         public string DeviveName;
         public int DeviceID;
-        public string IP;
+        public IPAddress IP;
         public int Port;
     }
 }

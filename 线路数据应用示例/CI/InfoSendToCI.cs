@@ -12,7 +12,6 @@ namespace 线路数据应用示例
         public byte[] TrainAccessInfo = new byte[49];
         public byte[] DataSendToCI;
         public int DataLength = 0;
-
         StringBuilder SendInfoBuilder;
 
         public InfoSendToCI()
