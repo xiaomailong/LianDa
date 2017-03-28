@@ -6,10 +6,11 @@ namespace 线路数据应用示例
     {
         int byteFlag_;
         int bitFlag_;
-        public byte[] buf_ = new byte[21];
+        public byte[] buf_;
 
-        public void Reset()
+        public Pack(int Num)
         {
+            this.buf_ = new byte[Num];
             byteFlag_ = 0;
             bitFlag_ = 0;
         }

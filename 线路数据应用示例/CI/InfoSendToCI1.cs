@@ -6,20 +6,18 @@ using System.Threading.Tasks;
 
 namespace 线路数据应用示例
 {
-    class InfoSendToCI
+    class InfoSendToCI1
     {
-        Pack MyStruct = new Pack();
-        public byte[] DataSendToCI = new byte[29];
+        Pack MyStruct = new Pack(13);
+        public byte[] DataSendToCI = new byte[21];
 
-        public InfoSendToCI()
+        public InfoSendToCI1()
         {
             SetLogicState(MainWindow.stationElements_.Elements);
-            SetLogicState(MainWindow.stationElements_1_.Elements);
             MyStruct.Skip();
             SetTrainAccessInfo(AddCIAccess.CITableListTop);
-            SetTrainAccessInfo(AddCIAccess.CITableListDown);
             MyStruct.Skip();
-            Array.Copy(MyStruct.buf_, 0, DataSendToCI, 8, 21);
+            Array.Copy(MyStruct.buf_, 0, DataSendToCI, 8, 13);
         }
 
         private void SetTrainAccessInfo(List<CItable> CITable)

@@ -23,25 +23,9 @@ namespace 线路数据应用示例
             }
             if (DataType == 2)
             {
-                HandleCI2Data HandleCI1Data = new HandleCI2Data(DATA);
-                InfoSendToCI SendToCI = new InfoSendToCI();
-                byte[] Head = WriteCIHead(NumToCI1, DataType, 29);
-                Array.Copy(Head, SendToCI.DataSendToCI, 8);
-                Send(SendToCI.DataSendToCI, GetIPByDataType(DataType), GetPortByDataType(DataType));
-                if (NumToCI1 < 65536)
-                {
-                    NumToCI1++;
-                }
-                else
-                {
-                    NumToCI1 = 1;
-                }
-            }
-            if (DataType == 1)
-            {
-                HandleCI1Data HandleCI2Data = new HandleCI1Data(DATA);
-                InfoSendToCI SendToCI = new InfoSendToCI();
-                byte[] Head = WriteCIHead(NumToCI2, DataType, 29);
+                HandleCI2Data HandleCI2Data = new HandleCI2Data(DATA);
+                InfoSendToCI2 SendToCI = new InfoSendToCI2();
+                byte[] Head = WriteCIHead(NumToCI2, DataType, 17);
                 Array.Copy(Head, SendToCI.DataSendToCI, 8);
                 Send(SendToCI.DataSendToCI, GetIPByDataType(DataType), GetPortByDataType(DataType));
                 if (NumToCI2 < 65536)
@@ -51,6 +35,22 @@ namespace 线路数据应用示例
                 else
                 {
                     NumToCI2 = 1;
+                }
+            }
+            if (DataType == 1)
+            {
+                HandleCI1Data HandleCI1Data = new HandleCI1Data(DATA);
+                InfoSendToCI1 SendToCI = new InfoSendToCI1();
+                byte[] Head = WriteCIHead(NumToCI1, DataType, 21);
+                Array.Copy(Head, SendToCI.DataSendToCI, 8);
+                Send(SendToCI.DataSendToCI, GetIPByDataType(DataType), GetPortByDataType(DataType));
+                if (NumToCI1 < 65536)
+                {
+                    NumToCI1++;
+                }
+                else
+                {
+                    NumToCI1 = 1;
                 }
             }
         }

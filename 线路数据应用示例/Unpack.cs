@@ -4,8 +4,8 @@ namespace 线路数据应用示例
 {
     class Unpack
     {
-        int byteFlag_ = 12;
-        int bitFlag_ = 0;
+        int byteFlag_;
+        int bitFlag_;
         byte[] buf_;
 
         public void Reset(byte[] buf)
