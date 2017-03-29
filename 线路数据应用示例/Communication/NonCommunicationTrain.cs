@@ -8,6 +8,8 @@ namespace 线路数据应用示例
 {
     class NonCommunicationTrain
     {
+        public static Dictionary<byte, byte[]> LoseTrain = new Dictionary<byte, byte[]>();
+
         public void JudgeLostTrain()
         {
             while (true)
@@ -20,20 +22,137 @@ namespace 线路数据应用示例
                     Judge(VOBCorCI.VOBCNonCom);
                     VOBCorCI.VOBCNonCom.Clear();
                 }
+                UpdateLostTrain();
             }
         }
 
         private void Judge(List<byte> VOBCList)
         {
-            for (int i = 0; i < HandleVOBCData.Train.Count; i++)
+            lock (HandleVOBCData.TrainPosition)
             {
-                int index = VOBCorCI.VOBCNonCom.IndexOf(HandleVOBCData.Train[i]);
-                if (index == -1)
+                foreach (var item in HandleVOBCData.TrainPosition.Keys)
                 {
-                    byte[] LostTrainPosition = HandleVOBCData.TrainPosition[HandleVOBCData.Train[i]];
+                    if (!VOBCList.Contains(item))
+                    {
+                        if (!LoseTrain.Keys.Contains(item))
+                        {
+                            LoseTrain.Add(item, HandleVOBCData.TrainPosition[item]);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void UpdateLostTrain()
+        {
+            foreach (var item in LoseTrain.Keys)
+            {
+                string TrainSection = (Convert.ToInt16(LoseTrain[item][1]) * 256 + Convert.ToInt16(LoseTrain[item][0])).ToString();
+                string RailSwitch = (Convert.ToInt16(LoseTrain[item][2])).ToString();
+                if (TraverseSection(TrainSection) != null)
+                {
+                    Section section = TraverseSection(TrainSection);
+                    if (!section.HasNonComTrain.Contains(item))
+                    {
+                        section.HasNonComTrain.Add(item);
+                    }
+                    System.Windows.Application.Current.Dispatcher.Invoke(
+                     new Action(
+                     delegate
+                     {
+                         section.InvalidateVisual();
+                     }));
+                }
+                else if (TraverseRailSwitch(TrainSection,RailSwitch) != null)
+                {
+                    RailSwitch railswitch = TraverseRailSwitch(TrainSection,RailSwitch);
+                    if (railswitch.HasNonComTrain.Contains(item))
+                    {
+                        railswitch.HasNonComTrain.Add(item);
+                    }
+                    System.Windows.Application.Current.Dispatcher.Invoke(new Action(delegate
+                     {
+                         railswitch.InvalidateVisual();
+                     }));
+                }
+            }
+        }
+
+        private Section TraverseSection(string TrainPosition)
+        {
+            foreach (var item in MainWindow.stationElements_.Elements)
+            {
+                try
+                {
+                    if (item is Section)
+                    {
+                        if ((item as Section).Name.Substring(0, 3) == TrainPosition)
+                        {
+                            return (item as Section);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
 
                 }
             }
+            foreach (var item in MainWindow.stationElements_1_.Elements)
+            {
+                try
+                {
+                    if (item is Section)
+                    {
+                        if ((item as Section).Name.Substring(0, 3) == TrainPosition)
+                        {
+                            return (item as Section);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                }
+            }
+            return null;
+        }
+
+        private RailSwitch TraverseRailSwitch(string TrainPosition, string TrainRailSwitchName)
+        {
+            foreach (var item in MainWindow.stationElements_.Elements)
+            {
+                try
+                {
+                    if (item is RailSwitch)
+                    {
+                        if ((item as RailSwitch).SectionName.Substring(0, 3) == TrainPosition && (item as RailSwitch).Name == TrainRailSwitchName)
+                        {
+                            return (item as RailSwitch);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
+            foreach (var item in MainWindow.stationElements_1_.Elements)
+            {
+                try
+                {
+                    if (item is RailSwitch)
+                    {
+                        if ((item as RailSwitch).SectionName.Substring(0, 3) == TrainPosition && (item as RailSwitch).Name == TrainRailSwitchName)
+                        {
+                            return (item as RailSwitch);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
+            return null;
         }
     }
 }

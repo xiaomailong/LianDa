@@ -9,6 +9,8 @@ namespace 线路数据应用示例
         static Pen YellowPen_ = new Pen(Brushes.Yellow,3);
         static Pen RedPen_ = new Pen(Brushes.Red, 3);
         static Pen DefaultPen_ = new Pen(Brushes.Cyan, 3);
+        static Pen PurplePen_ = new Pen(Brushes.Purple, 3);
+
         public bool IsPositionNormal { get; set; }
         public bool IsPositionReverse { get; set; }
         public bool Islock { get; set; }
@@ -44,6 +46,19 @@ namespace 线路数据应用示例
 
         }//1表示空闲，0表示占用
 
+        List<byte> hasNonComTrain_ = new List<byte>();
+        public List<byte> HasNonComTrain
+        {
+            get { return hasNonComTrain_; }
+            set
+            {
+                if (hasNonComTrain_ != value)
+                {
+                    hasNonComTrain_ = value;
+                }
+            }
+        }
+
         RailSwitch()
         {
             IsPositionNormal = false;
@@ -56,75 +71,112 @@ namespace 线路数据应用示例
             List<int> normalIndexs = SectionIndexList[1];
             List<int> reverseIndexs = SectionIndexList[2];
 
-            if (TrainOccupy_ == 0)
+            if (HasNonComTrain.Count != 0)
             {
-                foreach (int index in sectionIndexs)
+                foreach (int index in normalIndexs)
                 {
                     Line line = graphics_[index] as Line;
-                    dc.DrawLine(YellowPen_, line.Points[0], line.Points[1]);
+                    dc.DrawLine(PurplePen_, line.Points[0], line.Points[1]);
                 }
-                if (IsPositionNormal == true && IsPositionReverse == false)
-                {
-                    foreach (int index in normalIndexs)
-                    {
-                        Line line = graphics_[index] as Line;
-                        dc.DrawLine(YellowPen_, line.Points[0], line.Points[1]);
-                    }
 
-                    foreach (int index in reverseIndexs)
-                    {
-                        Line line = graphics_[index] as Line;
-                        dc.DrawLine(DefaultPen_, line.Points[0], line.Points[1]);
-                    }
-                }
-                else if(IsPositionNormal == false && IsPositionReverse == true)
+                foreach (int index in reverseIndexs)
                 {
-                    foreach (int index in reverseIndexs)
-                    {
-                        Line line = graphics_[index] as Line;
-                        dc.DrawLine(YellowPen_, line.Points[0], line.Points[1]);
-                    }
-
-                    foreach (int index in normalIndexs)
-                    {
-                        Line line = graphics_[index] as Line;
-                        dc.DrawLine(DefaultPen_, line.Points[0], line.Points[1]);
-                    }
+                    Line line = graphics_[index] as Line;
+                    dc.DrawLine(PurplePen_, line.Points[0], line.Points[1]);
                 }
             }
-            else if (_AxleOccpy == 0)
+            else
             {
-                foreach (int index in sectionIndexs)
+                if (TrainOccupy_ == 0)
                 {
-                    Line line = graphics_[index] as Line;
-                    dc.DrawLine(RedPen_, line.Points[0], line.Points[1]);
+                    foreach (int index in sectionIndexs)
+                    {
+                        Line line = graphics_[index] as Line;
+                        dc.DrawLine(YellowPen_, line.Points[0], line.Points[1]);
+                    }
+                    if (IsPositionNormal == true && IsPositionReverse == false)
+                    {
+                        foreach (int index in normalIndexs)
+                        {
+                            Line line = graphics_[index] as Line;
+                            dc.DrawLine(YellowPen_, line.Points[0], line.Points[1]);
+                        }
+
+                        foreach (int index in reverseIndexs)
+                        {
+                            Line line = graphics_[index] as Line;
+                            dc.DrawLine(DefaultPen_, line.Points[0], line.Points[1]);
+                        }
+                    }
+                    else if (IsPositionNormal == false && IsPositionReverse == true)
+                    {
+                        foreach (int index in reverseIndexs)
+                        {
+                            Line line = graphics_[index] as Line;
+                            dc.DrawLine(YellowPen_, line.Points[0], line.Points[1]);
+                        }
+
+                        foreach (int index in normalIndexs)
+                        {
+                            Line line = graphics_[index] as Line;
+                            dc.DrawLine(DefaultPen_, line.Points[0], line.Points[1]);
+                        }
+                    }
                 }
-                if (IsPositionNormal == true && IsPositionReverse == false)
+                else if (_AxleOccpy == 0)
                 {
-                    foreach (int index in normalIndexs)
+                    foreach (int index in sectionIndexs)
                     {
                         Line line = graphics_[index] as Line;
                         dc.DrawLine(RedPen_, line.Points[0], line.Points[1]);
                     }
+                    if (IsPositionNormal == true && IsPositionReverse == false)
+                    {
+                        foreach (int index in normalIndexs)
+                        {
+                            Line line = graphics_[index] as Line;
+                            dc.DrawLine(RedPen_, line.Points[0], line.Points[1]);
+                        }
 
-                    foreach (int index in reverseIndexs)
-                    {
-                        Line line = graphics_[index] as Line;
-                        dc.DrawLine(DefaultPen_, line.Points[0], line.Points[1]);
+                        foreach (int index in reverseIndexs)
+                        {
+                            Line line = graphics_[index] as Line;
+                            dc.DrawLine(DefaultPen_, line.Points[0], line.Points[1]);
+                        }
                     }
-                }
-                else if (IsPositionNormal == false && IsPositionReverse == true)
-                {
-                    foreach (int index in reverseIndexs)
+                    else if (IsPositionNormal == false && IsPositionReverse == true)
                     {
-                        Line line = graphics_[index] as Line;
-                        dc.DrawLine(RedPen_, line.Points[0], line.Points[1]);
-                    }
+                        foreach (int index in reverseIndexs)
+                        {
+                            Line line = graphics_[index] as Line;
+                            dc.DrawLine(RedPen_, line.Points[0], line.Points[1]);
+                        }
 
-                    foreach (int index in normalIndexs)
+                        foreach (int index in normalIndexs)
+                        {
+                            Line line = graphics_[index] as Line;
+                            dc.DrawLine(DefaultPen_, line.Points[0], line.Points[1]);
+                        }
+                    }
+                    else
                     {
-                        Line line = graphics_[index] as Line;
-                        dc.DrawLine(DefaultPen_, line.Points[0], line.Points[1]);
+                        foreach (int index in sectionIndexs)
+                        {
+                            Line line = graphics_[index] as Line;
+                            dc.DrawLine(RedPen_, line.Points[0], line.Points[1]);
+                        }
+
+                        foreach (int index in normalIndexs)
+                        {
+                            Line line = graphics_[index] as Line;
+                            dc.DrawLine(RedPen_, line.Points[0], line.Points[1]);
+                        }
+
+                        foreach (int index in reverseIndexs)
+                        {
+                            Line line = graphics_[index] as Line;
+                            dc.DrawLine(RedPen_, line.Points[0], line.Points[1]);
+                        }
                     }
                 }
                 else
@@ -132,40 +184,20 @@ namespace 线路数据应用示例
                     foreach (int index in sectionIndexs)
                     {
                         Line line = graphics_[index] as Line;
-                        dc.DrawLine(RedPen_, line.Points[0], line.Points[1]);
+                        dc.DrawLine(DefaultPen_, line.Points[0], line.Points[1]);
                     }
 
                     foreach (int index in normalIndexs)
                     {
                         Line line = graphics_[index] as Line;
-                        dc.DrawLine(RedPen_, line.Points[0], line.Points[1]);
+                        dc.DrawLine(DefaultPen_, line.Points[0], line.Points[1]);
                     }
 
                     foreach (int index in reverseIndexs)
                     {
                         Line line = graphics_[index] as Line;
-                        dc.DrawLine(RedPen_, line.Points[0], line.Points[1]);
+                        dc.DrawLine(DefaultPen_, line.Points[0], line.Points[1]);
                     }
-                }
-            }
-            else
-            {
-                foreach (int index in sectionIndexs)
-                {
-                    Line line = graphics_[index] as Line;
-                    dc.DrawLine(DefaultPen_, line.Points[0], line.Points[1]);
-                }
-
-                foreach (int index in normalIndexs)
-                {
-                    Line line = graphics_[index] as Line;
-                    dc.DrawLine(DefaultPen_, line.Points[0], line.Points[1]);
-                }
-
-                foreach (int index in reverseIndexs)
-                {
-                    Line line = graphics_[index] as Line;
-                    dc.DrawLine(DefaultPen_, line.Points[0], line.Points[1]);
                 }
             }
         }

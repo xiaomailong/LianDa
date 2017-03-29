@@ -41,9 +41,7 @@ namespace 线路数据应用示例
         {
             if (PreTrainPosition.Keys.Contains(VOBCInfo.NID_Train))
             {
-                //byte[] pre = new byte[12];
                 Array.Copy(Data, 20, PreTrainPosition[VOBCInfo.NID_Train], 0, 12);
-                //PreTrainPosition[VOBCInfo.NID_Train] = HandleVOBCData.TrainPosition[VOBCInfo.NID_Train];
             }
             else
             {
@@ -89,7 +87,7 @@ namespace 线路数据应用示例
 
         }
 
-        private Section TraverseSection(string TrainPosition)
+        public static Section TraverseSection(string TrainPosition)
         {
             foreach (var item in MainWindow.stationElements_.Elements)
             {
@@ -127,7 +125,7 @@ namespace 线路数据应用示例
             return null;
         }
 
-        private RailSwitch TraverseRailSwitch(string TrainPosition,string TrainRailSwitchName)
+        public static RailSwitch TraverseRailSwitch(string TrainPosition,string TrainRailSwitchName)
         {
             foreach (var item in MainWindow.stationElements_.Elements)
             {

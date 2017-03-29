@@ -19,7 +19,14 @@ namespace 线路数据应用示例
             int DataType = Convert.ToInt16(DATA[4]);
             if (DataType == 4 || DataType == 5 || DataType == 6 || DataType == 7)
             {
-               HandleVOBC(DataType,DATA);
+                lock (NonCommunicationTrain.LoseTrain)
+                {
+                    if (NonCommunicationTrain.LoseTrain.Keys.Contains(DATA[8]))
+                    {
+                        CancelNonComTrain(DATA[8]);
+                    }
+                }
+                HandleVOBC(DataType,DATA);
             }
             if (DataType == 2)
             {
@@ -57,10 +64,10 @@ namespace 线路数据应用示例
 
         public void HandleVOBC(int DataType, byte[] DATA)
         {
-            int num = VOBCNonCom.IndexOf(DATA[11]);
+            int num = VOBCNonCom.IndexOf(DATA[8]);
             if (num == -1)
             {
-                VOBCNonCom.Add(DATA[11]);
+                VOBCNonCom.Add(DATA[8]);
             }
             HandleVOBCData HandleVOBCData = new HandleVOBCData(DATA);
             VOBCData VOBCData = new VOBCData(DATA, HandleVOBCData);
@@ -129,6 +136,38 @@ namespace 线路数据应用示例
                 }
             }
             return 0;
+        }
+
+        public static void CancelNonComTrain(byte TrainID)
+        {
+            string PreNonComTrainPosition;
+            string PreNonComTrainPositionSectionName;
+            lock (NonCommunicationTrain.LoseTrain)
+            {
+                PreNonComTrainPosition = (Convert.ToInt16(NonCommunicationTrain.LoseTrain[TrainID][1]) * 256 + Convert.ToInt16(NonCommunicationTrain.LoseTrain[TrainID][0])).ToString();
+                PreNonComTrainPositionSectionName = (Convert.ToInt16(NonCommunicationTrain.LoseTrain[TrainID][2])).ToString();
+                NonCommunicationTrain.LoseTrain.Remove(TrainID);
+            }
+            if (UpdateInfo.TraverseSection(PreNonComTrainPosition) != null)
+            {
+                Section section = UpdateInfo.TraverseSection(PreNonComTrainPosition);
+                section.HasNonComTrain.Remove(TrainID);
+                System.Windows.Application.Current.Dispatcher.Invoke(
+                 new Action(
+                 delegate
+                 {
+                     section.InvalidateVisual();
+                 }));
+            }
+            else if (UpdateInfo.TraverseRailSwitch(PreNonComTrainPosition, PreNonComTrainPositionSectionName) != null)
+            {
+                RailSwitch railswitch = UpdateInfo.TraverseRailSwitch(PreNonComTrainPosition, PreNonComTrainPositionSectionName);
+                railswitch.HasNonComTrain.Remove(TrainID);
+                System.Windows.Application.Current.Dispatcher.Invoke(new Action(delegate
+                {
+                    railswitch.InvalidateVisual();
+                }));
+            }
         }
     }
 }

@@ -34,6 +34,7 @@ namespace 线路数据应用示例
 
             Receive = new ReceiveData();
             Receive.Start();
+            NonComTrain();
         }
 
         private void LoadSecondStation()
@@ -50,6 +51,7 @@ namespace 线路数据应用示例
 
             stationElements_1_.AddElementsToCanvas(MainCanvas);
             ConnectNodes(stationTopoloty_, stationTopoloty_1_, "201G", "301G");
+
         }
 
         private void ConnectNodes(StationTopoloty topo1, StationTopoloty topo2, string deviceName1, string deviceName2)

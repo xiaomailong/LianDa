@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System.Collections.Generic;
+using System.Windows.Media;
 using 线路绘图工具;
 
 namespace 线路数据应用示例
@@ -8,10 +9,12 @@ namespace 线路数据应用示例
         static Pen DefaultPen_ = new Pen(Brushes.Cyan, 3);
         static Pen AxleOccupyPen_ = new Pen(Brushes.Red, 3);
         static Pen TrainOccpyPen_ = new Pen(Brushes.Yellow, 3);
+        static Pen NonComTrainOccupy_ = new Pen(Brushes.Purple, 3);
 
         public static Pen DefaultPen { get { return DefaultPen_; } }
         public static Pen AxleOccupyPen { get { return AxleOccupyPen_; } }
         public static Pen TrainOccpyPen { get { return TrainOccpyPen_; } }
+        public static Pen NonComTrainOccupy{ get { return NonComTrainOccupy_; } }
         public bool IsAccessLock { get; set; }
 
         public double LeftDistance { get; set; }
@@ -76,6 +79,19 @@ namespace 线路数据应用示例
             }
         }
 
+        List<byte> hasNonComTrain_ = new List<byte>();
+        public List<byte> HasNonComTrain
+        {
+            get { return hasNonComTrain_; }
+            set
+            {
+                if (hasNonComTrain_ != value)
+                {
+                    hasNonComTrain_ = value;
+                }
+            }
+        }
+
         bool isFrontLogicOccupy_ = false;
         public  bool IsFrontLogicOccupy
         {
@@ -106,26 +122,33 @@ namespace 线路数据应用示例
         {
             foreach (Line line in graphics_)
             {
-                System.Windows.Point Middle = new System.Windows.Point((line.Points[0].X + line.Points[1].X)/2,(line.Points[0].Y + line.Points[1].Y)/2);
-                if (AxleOccupy == 0)
-	            {
-		            dc.DrawLine(AxleOccupyPen_,line.Points[0],line.Points[1]);
-	            }
-                else
-	            {
-                    dc.DrawLine(DefaultPen_,line.Points[0],line.Points[1]);
-	            }
-                if (IsFrontLogicOccupy && IsLastLogicOccupy)
-	            {
-		            dc.DrawLine(TrainOccpyPen_,line.Points[0],line.Points[1]);
-	            }
-                else if (IsFrontLogicOccupy && !IsLastLogicOccupy)
-	            {
-		            dc.DrawLine(TrainOccpyPen_,line.Points[0],Middle);
-	            }
-                else if (!IsFrontLogicOccupy && IsLastLogicOccupy)
+                if (HasNonComTrain.Count != 0)
                 {
-                    dc.DrawLine(TrainOccpyPen_, Middle, line.Points[1]);
+                    dc.DrawLine(NonComTrainOccupy_, line.Points[0], line.Points[1]);
+                }
+                else
+                {
+                    System.Windows.Point Middle = new System.Windows.Point((line.Points[0].X + line.Points[1].X) / 2, (line.Points[0].Y + line.Points[1].Y) / 2);
+                    if (AxleOccupy == 0)
+                    {
+                        dc.DrawLine(AxleOccupyPen_, line.Points[0], line.Points[1]);
+                    }
+                    else
+                    {
+                        dc.DrawLine(DefaultPen_, line.Points[0], line.Points[1]);
+                    }
+                    if (IsFrontLogicOccupy && IsLastLogicOccupy)
+                    {
+                        dc.DrawLine(TrainOccpyPen_, line.Points[0], line.Points[1]);
+                    }
+                    else if (IsFrontLogicOccupy && !IsLastLogicOccupy)
+                    {
+                        dc.DrawLine(TrainOccpyPen_, line.Points[0], Middle);
+                    }
+                    else if (!IsFrontLogicOccupy && IsLastLogicOccupy)
+                    {
+                        dc.DrawLine(TrainOccpyPen_, Middle, line.Points[1]);
+                    }
                 }
             }
             dc.DrawText(formattedName_, namePoint_);

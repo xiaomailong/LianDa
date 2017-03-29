@@ -11,7 +11,6 @@ namespace 线路数据应用示例
     {
         public static Dictionary<byte, byte> TrainDirection = new Dictionary<byte, byte>();
         public static Dictionary<byte, byte[]> TrainPosition = new Dictionary<byte, byte[]>();
-        public static List<byte> Train = new List<byte>();
         #region 属性
         private byte _NID_Train;
         public byte NID_Train
@@ -45,15 +44,6 @@ namespace 线路数据应用示例
             GetNCofTrain(Data);
             GetTrainPosition(Data);
             GetDirection(Data);
-            AddTrain(Data);
-        }
-
-        private void AddTrain(byte[] Data)
-        {
-            if (!Train.Contains(Data[8]))
-            {
-                Train.Add(Data[8]);
-            }
         }
 
         private void GetTrainID(byte[] Data)
